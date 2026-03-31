@@ -15,6 +15,8 @@ import DonorFeedPage from "./pages/DonorFeed";
 import MyRequestsPage from "./pages/MyRequests";
 import PatientCardPage from "./pages/PatientCard";
 import ProfilePage from "./pages/Profile";
+import AppointmentsPage from "./pages/Appointments";
+import HospitalFinderPage from "./pages/HospitalFinder";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
