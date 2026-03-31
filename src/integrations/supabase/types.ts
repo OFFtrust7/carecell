@@ -14,7 +14,206 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      blood_requests: {
+        Row: {
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city: string | null
+          contact_phone: string | null
+          created_at: string
+          donation_type: Database["public"]["Enums"]["donation_type"]
+          expires_at: string
+          fulfilled_at: string | null
+          hospital_address: string | null
+          hospital_name: string
+          id: string
+          latitude: number | null
+          longitude: number | null
+          notes: string | null
+          patient_id: string
+          patient_name: string
+          state: string | null
+          status: Database["public"]["Enums"]["request_status"]
+          units_needed: number
+          updated_at: string
+          urgency: Database["public"]["Enums"]["request_urgency"]
+        }
+        Insert: {
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          donation_type?: Database["public"]["Enums"]["donation_type"]
+          expires_at: string
+          fulfilled_at?: string | null
+          hospital_address?: string | null
+          hospital_name: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          notes?: string | null
+          patient_id: string
+          patient_name: string
+          state?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          units_needed?: number
+          updated_at?: string
+          urgency?: Database["public"]["Enums"]["request_urgency"]
+        }
+        Update: {
+          blood_group?: Database["public"]["Enums"]["blood_group"]
+          city?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          donation_type?: Database["public"]["Enums"]["donation_type"]
+          expires_at?: string
+          fulfilled_at?: string | null
+          hospital_address?: string | null
+          hospital_name?: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          notes?: string | null
+          patient_id?: string
+          patient_name?: string
+          state?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          units_needed?: number
+          updated_at?: string
+          urgency?: Database["public"]["Enums"]["request_urgency"]
+        }
+        Relationships: []
+      }
+      donor_responses: {
+        Row: {
+          created_at: string
+          donor_id: string
+          id: string
+          message: string | null
+          request_id: string
+          status: Database["public"]["Enums"]["donor_response_status"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          donor_id: string
+          id?: string
+          message?: string | null
+          request_id: string
+          status?: Database["public"]["Enums"]["donor_response_status"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          donor_id?: string
+          id?: string
+          message?: string | null
+          request_id?: string
+          status?: Database["public"]["Enums"]["donor_response_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "donor_responses_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "blood_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          allergies: string | null
+          avatar_url: string | null
+          blood_group: Database["public"]["Enums"]["blood_group"] | null
+          cancer_stage: string | null
+          cancer_type: string | null
+          city: string | null
+          created_at: string
+          date_of_birth: string | null
+          doctor_name: string | null
+          donation_count: number
+          donor_score: number
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          full_name: string
+          gender: string | null
+          hospital_name: string | null
+          id: string
+          is_available: boolean
+          last_donation_date: string | null
+          latitude: number | null
+          longitude: number | null
+          phone: string | null
+          pin_code: string | null
+          platelet_donor: boolean
+          role: Database["public"]["Enums"]["user_role"]
+          state: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          allergies?: string | null
+          avatar_url?: string | null
+          blood_group?: Database["public"]["Enums"]["blood_group"] | null
+          cancer_stage?: string | null
+          cancer_type?: string | null
+          city?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          doctor_name?: string | null
+          donation_count?: number
+          donor_score?: number
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          full_name?: string
+          gender?: string | null
+          hospital_name?: string | null
+          id?: string
+          is_available?: boolean
+          last_donation_date?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          phone?: string | null
+          pin_code?: string | null
+          platelet_donor?: boolean
+          role?: Database["public"]["Enums"]["user_role"]
+          state?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          allergies?: string | null
+          avatar_url?: string | null
+          blood_group?: Database["public"]["Enums"]["blood_group"] | null
+          cancer_stage?: string | null
+          cancer_type?: string | null
+          city?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          doctor_name?: string | null
+          donation_count?: number
+          donor_score?: number
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          full_name?: string
+          gender?: string | null
+          hospital_name?: string | null
+          id?: string
+          is_available?: boolean
+          last_donation_date?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          phone?: string | null
+          pin_code?: string | null
+          platelet_donor?: boolean
+          role?: Database["public"]["Enums"]["user_role"]
+          state?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +222,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      blood_group: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-"
+      donation_type: "whole_blood" | "platelets" | "plasma"
+      donor_response_status: "offered" | "accepted" | "declined" | "confirmed"
+      request_status: "active" | "fulfilled" | "expired" | "cancelled"
+      request_urgency: "critical" | "urgent" | "normal"
+      user_role: "patient" | "donor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +354,13 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      blood_group: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+      donation_type: ["whole_blood", "platelets", "plasma"],
+      donor_response_status: ["offered", "accepted", "declined", "confirmed"],
+      request_status: ["active", "fulfilled", "expired", "cancelled"],
+      request_urgency: ["critical", "urgent", "normal"],
+      user_role: ["patient", "donor"],
+    },
   },
 } as const
