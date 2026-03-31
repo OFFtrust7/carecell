@@ -9,6 +9,8 @@ const NAV_ITEMS = [
   { path: "/create-request", label: "New Request", icon: PlusCircle, role: "patient" as const },
   { path: "/donor-feed", label: "Donor Feed", icon: Droplets, role: "donor" as const },
   { path: "/my-requests", label: "My Requests", icon: Droplets, role: "patient" as const },
+  { path: "/appointments", label: "Appointments", icon: Calendar },
+  { path: "/hospital-finder", label: "Hospitals", icon: Hospital },
   { path: "/patient-card", label: "Health Card", icon: CreditCard },
   { path: "/profile", label: "Profile", icon: User },
 ];

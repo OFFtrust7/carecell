@@ -38,6 +38,8 @@ const App = () => (
             <Route path="/my-requests" element={<ProtectedRoute><AppLayout><MyRequestsPage /></AppLayout></ProtectedRoute>} />
             <Route path="/patient-card" element={<ProtectedRoute><AppLayout><PatientCardPage /></AppLayout></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><AppLayout><ProfilePage /></AppLayout></ProtectedRoute>} />
+            <Route path="/appointments" element={<ProtectedRoute><AppLayout><AppointmentsPage /></AppLayout></ProtectedRoute>} />
+            <Route path="/hospital-finder" element={<ProtectedRoute><AppLayout><HospitalFinderPage /></AppLayout></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
