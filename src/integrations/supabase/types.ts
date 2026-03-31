@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      appointments: {
+        Row: {
+          appointment_date: string
+          appointment_type: string
+          created_at: string
+          description: string | null
+          doctor_name: string | null
+          id: string
+          location: string | null
+          notes: string | null
+          reminder_date: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          appointment_date: string
+          appointment_type?: string
+          created_at?: string
+          description?: string | null
+          doctor_name?: string | null
+          id?: string
+          location?: string | null
+          notes?: string | null
+          reminder_date?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          appointment_date?: string
+          appointment_type?: string
+          created_at?: string
+          description?: string | null
+          doctor_name?: string | null
+          id?: string
+          location?: string | null
+          notes?: string | null
+          reminder_date?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       blood_requests: {
         Row: {
           blood_group: Database["public"]["Enums"]["blood_group"]
