@@ -86,11 +86,6 @@ export default function RegisterPage() {
                 <Separator />
                 <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">or</span>
               </div>
-            <CardHeader className="pb-4">
-              <CardTitle className="font-display text-xl">Create Account</CardTitle>
-              <CardDescription>Step 1 of 2 — Basic info</CardDescription>
-            </CardHeader>
-            <CardContent>
               <form onSubmit={handleStep1} className="space-y-4">
                 <div className="space-y-2">
                   <Label>Full Name</Label>
