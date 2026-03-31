@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X } from "lucide-react";
+import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -9,6 +9,8 @@ const NAV_ITEMS = [
   { path: "/create-request", label: "New Request", icon: PlusCircle, role: "patient" as const },
   { path: "/donor-feed", label: "Donor Feed", icon: Droplets, role: "donor" as const },
   { path: "/my-requests", label: "My Requests", icon: Droplets, role: "patient" as const },
+  { path: "/appointments", label: "Appointments", icon: Calendar },
+  { path: "/hospital-finder", label: "Hospitals", icon: Hospital },
   { path: "/patient-card", label: "Health Card", icon: CreditCard },
   { path: "/profile", label: "Profile", icon: User },
 ];
