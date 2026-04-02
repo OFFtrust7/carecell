@@ -267,7 +267,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_donor_profiles: {
+        Args: { p_blood_group?: string; p_city?: string }
+        Returns: {
+          avatar_url: string
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city: string
+          donation_count: number
+          donor_score: number
+          full_name: string
+          id: string
+          is_available: boolean
+          last_donation_date: string
+          platelet_donor: boolean
+          state: string
+          user_id: string
+        }[]
+      }
+      get_request_contact_phone: {
+        Args: { p_request_id: string }
+        Returns: string
+      }
     }
     Enums: {
       blood_group: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-"
