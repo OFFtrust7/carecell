@@ -41,6 +41,7 @@ const App = () => (
             <Route path="/profile" element={<ProtectedRoute><AppLayout><ProfilePage /></AppLayout></ProtectedRoute>} />
             <Route path="/appointments" element={<ProtectedRoute><AppLayout><AppointmentsPage /></AppLayout></ProtectedRoute>} />
             <Route path="/hospital-finder" element={<ProtectedRoute><AppLayout><HospitalFinderPage /></AppLayout></ProtectedRoute>} />
+            <Route path="/ai-chat" element={<ProtectedRoute><AppLayout><AIChatPage /></AppLayout></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
