@@ -68,9 +68,16 @@ export default function DonorFeedPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-display text-foreground">Donor Feed</h1>
-        <p className="text-muted-foreground">Active blood requests near you</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-display text-foreground">Donor Feed</h1>
+          <p className="text-muted-foreground">Active blood requests near you</p>
+        </div>
+        <Link to="/donor-details">
+          <Button variant="outline" size="sm">
+            <UserPlus className="w-4 h-4 mr-1" /> My Donor Details
+          </Button>
+        </Link>
       </div>
 
       {requests.length === 0 ? (
