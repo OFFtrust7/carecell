@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { path: "/my-requests", label: "My Requests", icon: Droplets, role: "patient" as const },
   { path: "/appointments", label: "Appointments", icon: Calendar },
   { path: "/hospital-finder", label: "Hospitals", icon: Hospital },
+  { path: "/ai-chat", label: "AI Assistant", icon: Bot },
   { path: "/patient-card", label: "Health Card", icon: CreditCard },
   { path: "/profile", label: "Profile", icon: User },
 ];
