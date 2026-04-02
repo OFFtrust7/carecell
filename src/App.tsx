@@ -18,6 +18,8 @@ import ProfilePage from "./pages/Profile";
 import AppointmentsPage from "./pages/Appointments";
 import HospitalFinderPage from "./pages/HospitalFinder";
 import AIChatPage from "./pages/AIChat";
+import PatientsPage from "./pages/Patients";
+import DonorDetailsPage from "./pages/DonorDetails";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +44,8 @@ const App = () => (
             <Route path="/appointments" element={<ProtectedRoute><AppLayout><AppointmentsPage /></AppLayout></ProtectedRoute>} />
             <Route path="/hospital-finder" element={<ProtectedRoute><AppLayout><HospitalFinderPage /></AppLayout></ProtectedRoute>} />
             <Route path="/ai-chat" element={<ProtectedRoute><AppLayout><AIChatPage /></AppLayout></ProtectedRoute>} />
+            <Route path="/patients" element={<ProtectedRoute><AppLayout><PatientsPage /></AppLayout></ProtectedRoute>} />
+            <Route path="/donor-details" element={<ProtectedRoute><AppLayout><DonorDetailsPage /></AppLayout></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

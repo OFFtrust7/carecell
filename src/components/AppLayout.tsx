@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital, Bot } from "lucide-react";
+import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital, Bot, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useAppointmentReminders } from "@/hooks/useAppointmentReminders";
@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { path: "/create-request", label: "New Request", icon: PlusCircle, role: "patient" as const },
   { path: "/donor-feed", label: "Donor Feed", icon: Droplets, role: "donor" as const },
   { path: "/my-requests", label: "My Requests", icon: Droplets, role: "patient" as const },
+  { path: "/patients", label: "Patients", icon: Users },
   { path: "/appointments", label: "Appointments", icon: Calendar },
   { path: "/hospital-finder", label: "Hospitals", icon: Hospital },
   { path: "/ai-chat", label: "AI Assistant", icon: Bot },
