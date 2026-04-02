@@ -18,6 +18,8 @@ import ProfilePage from "./pages/Profile";
 import AppointmentsPage from "./pages/Appointments";
 import HospitalFinderPage from "./pages/HospitalFinder";
 import AIChatPage from "./pages/AIChat";
+import PatientsPage from "./pages/Patients";
+import DonorDetailsPage from "./pages/DonorDetails";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
