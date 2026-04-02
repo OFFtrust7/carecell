@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-import { Droplets, MapPin, Clock, AlertTriangle, Send } from "lucide-react";
+import { Droplets, MapPin, Clock, AlertTriangle, Send, UserPlus } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { Link } from "react-router-dom";
 
 const urgencyColors: Record<string, string> = {
   critical: "bg-critical text-critical-foreground",
