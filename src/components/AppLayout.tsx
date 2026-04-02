@@ -3,6 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useAppointmentReminders } from "@/hooks/useAppointmentReminders";
 
 const NAV_ITEMS = [
   { path: "/dashboard", label: "Dashboard", icon: Home },
@@ -20,6 +21,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  useAppointmentReminders();
 
   const filteredNav = NAV_ITEMS.filter(
     (item) => !item.role || item.role === profile?.role
