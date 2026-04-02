@@ -22,13 +22,8 @@ export default function DashboardPage() {
   useEffect(() => {
     if (!user) return;
     fetchData();
-
-    const channel = supabase
-      .channel("dashboard-requests")
-      .on("postgres_changes", { event: "*", schema: "public", table: "blood_requests" }, () => fetchData())
-      .subscribe();
-
-    return () => { supabase.removeChannel(channel); };
+    const interval = setInterval(fetchData, 30000);
+    return () => clearInterval(interval);
   }, [user]);
 
   const fetchData = async () => {

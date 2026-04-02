@@ -25,11 +25,9 @@ export default function DonorFeedPage() {
 
   useEffect(() => {
     fetchRequests();
-    const channel = supabase
-      .channel("donor-feed")
-      .on("postgres_changes", { event: "*", schema: "public", table: "blood_requests" }, () => fetchRequests())
-      .subscribe();
-    return () => { supabase.removeChannel(channel); };
+    // Poll every 30s since realtime is disabled for security
+    const interval = setInterval(fetchRequests, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchRequests = async () => {
