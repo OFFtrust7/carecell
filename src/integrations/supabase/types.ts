@@ -167,6 +167,13 @@ export type Database = {
             referencedRelation: "blood_requests"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "donor_responses_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "blood_requests_safe"
+            referencedColumns: ["id"]
+          },
         ]
       }
       profiles: {
@@ -264,10 +271,98 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      blood_requests_safe: {
+        Row: {
+          blood_group: Database["public"]["Enums"]["blood_group"] | null
+          city: string | null
+          contact_phone: string | null
+          created_at: string | null
+          donation_type: Database["public"]["Enums"]["donation_type"] | null
+          expires_at: string | null
+          fulfilled_at: string | null
+          hospital_address: string | null
+          hospital_name: string | null
+          id: string | null
+          latitude: number | null
+          longitude: number | null
+          notes: string | null
+          patient_id: string | null
+          patient_name: string | null
+          state: string | null
+          status: Database["public"]["Enums"]["request_status"] | null
+          units_needed: number | null
+          updated_at: string | null
+          urgency: Database["public"]["Enums"]["request_urgency"] | null
+        }
+        Insert: {
+          blood_group?: Database["public"]["Enums"]["blood_group"] | null
+          city?: string | null
+          contact_phone?: never
+          created_at?: string | null
+          donation_type?: Database["public"]["Enums"]["donation_type"] | null
+          expires_at?: string | null
+          fulfilled_at?: string | null
+          hospital_address?: string | null
+          hospital_name?: string | null
+          id?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          notes?: string | null
+          patient_id?: string | null
+          patient_name?: string | null
+          state?: string | null
+          status?: Database["public"]["Enums"]["request_status"] | null
+          units_needed?: number | null
+          updated_at?: string | null
+          urgency?: Database["public"]["Enums"]["request_urgency"] | null
+        }
+        Update: {
+          blood_group?: Database["public"]["Enums"]["blood_group"] | null
+          city?: string | null
+          contact_phone?: never
+          created_at?: string | null
+          donation_type?: Database["public"]["Enums"]["donation_type"] | null
+          expires_at?: string | null
+          fulfilled_at?: string | null
+          hospital_address?: string | null
+          hospital_name?: string | null
+          id?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          notes?: string | null
+          patient_id?: string | null
+          patient_name?: string | null
+          state?: string | null
+          status?: Database["public"]["Enums"]["request_status"] | null
+          units_needed?: number | null
+          updated_at?: string | null
+          urgency?: Database["public"]["Enums"]["request_urgency"] | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      get_donor_profiles: {
+        Args: { p_blood_group?: string; p_city?: string }
+        Returns: {
+          avatar_url: string
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city: string
+          donation_count: number
+          donor_score: number
+          full_name: string
+          id: string
+          is_available: boolean
+          last_donation_date: string
+          platelet_donor: boolean
+          state: string
+          user_id: string
+        }[]
+      }
+      get_request_contact_phone: {
+        Args: { p_request_id: string }
+        Returns: string
+      }
     }
     Enums: {
       blood_group: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-"
