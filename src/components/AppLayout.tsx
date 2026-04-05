@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital, Bot, Users } from "lucide-react";
+import NotificationBell from "@/components/NotificationBell";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useAppointmentReminders } from "@/hooks/useAppointmentReminders";
@@ -66,6 +67,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 </Link>
               );
             })}
+            <NotificationBell />
             <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-muted-foreground ml-2">
               <LogOut className="w-4 h-4" />
             </Button>
