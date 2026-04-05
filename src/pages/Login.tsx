@@ -23,10 +23,10 @@ export default function LoginPage() {
     try {
       await signIn(email, password);
       toast.success("Welcome back!");
+      // Navigate immediately — profile will load in background
       navigate("/dashboard");
     } catch (err: any) {
       toast.error(err.message || "Failed to sign in");
-    } finally {
       setLoading(false);
     }
   };

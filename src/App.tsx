@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import RoleProtectedRoute from "@/components/RoleProtectedRoute";
 import AppLayout from "@/components/AppLayout";
 import Landing from "./pages/Landing";
 import LoginPage from "./pages/Login";
@@ -35,17 +36,24 @@ const App = () => (
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+
+            {/* Shared routes — both roles */}
             <Route path="/dashboard" element={<ProtectedRoute><AppLayout><DashboardPage /></AppLayout></ProtectedRoute>} />
-            <Route path="/create-request" element={<ProtectedRoute><AppLayout><CreateRequestPage /></AppLayout></ProtectedRoute>} />
-            <Route path="/donor-feed" element={<ProtectedRoute><AppLayout><DonorFeedPage /></AppLayout></ProtectedRoute>} />
-            <Route path="/my-requests" element={<ProtectedRoute><AppLayout><MyRequestsPage /></AppLayout></ProtectedRoute>} />
-            <Route path="/patient-card" element={<ProtectedRoute><AppLayout><PatientCardPage /></AppLayout></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><AppLayout><ProfilePage /></AppLayout></ProtectedRoute>} />
             <Route path="/appointments" element={<ProtectedRoute><AppLayout><AppointmentsPage /></AppLayout></ProtectedRoute>} />
             <Route path="/hospital-finder" element={<ProtectedRoute><AppLayout><HospitalFinderPage /></AppLayout></ProtectedRoute>} />
             <Route path="/ai-chat" element={<ProtectedRoute><AppLayout><AIChatPage /></AppLayout></ProtectedRoute>} />
             <Route path="/patients" element={<ProtectedRoute><AppLayout><PatientsPage /></AppLayout></ProtectedRoute>} />
-            <Route path="/donor-details" element={<ProtectedRoute><AppLayout><DonorDetailsPage /></AppLayout></ProtectedRoute>} />
+
+            {/* Patient-only routes */}
+            <Route path="/create-request" element={<ProtectedRoute><RoleProtectedRoute allowedRole="patient"><AppLayout><CreateRequestPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
+            <Route path="/my-requests" element={<ProtectedRoute><RoleProtectedRoute allowedRole="patient"><AppLayout><MyRequestsPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
+            <Route path="/patient-card" element={<ProtectedRoute><RoleProtectedRoute allowedRole="patient"><AppLayout><PatientCardPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
+
+            {/* Donor-only routes */}
+            <Route path="/donor-feed" element={<ProtectedRoute><RoleProtectedRoute allowedRole="donor"><AppLayout><DonorFeedPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
+            <Route path="/donor-details" element={<ProtectedRoute><RoleProtectedRoute allowedRole="donor"><AppLayout><DonorDetailsPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
