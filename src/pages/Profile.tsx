@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Save } from "lucide-react";
+import PageTransition from "@/components/premium/PageTransition";
+import GradientHeading from "@/components/premium/GradientHeading";
+import GlassCard from "@/components/premium/GlassCard";
+import GlowButton from "@/components/premium/GlowButton";
+import PremiumInput from "@/components/premium/PremiumInput";
 
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -76,138 +76,97 @@ export default function ProfilePage() {
   if (!profile) return null;
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <h1 className="text-3xl font-display text-foreground">Profile</h1>
+    <PageTransition className="max-w-2xl mx-auto space-y-6">
+      <GradientHeading>Profile</GradientHeading>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="font-display">Personal Information</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Full Name</Label>
-              <Input value={form.full_name} onChange={(e) => update("full_name", e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <Label>Phone</Label>
-              <Input value={form.phone} onChange={(e) => update("phone", e.target.value)} />
-            </div>
+      <GlassCard className="p-6 space-y-4">
+        <h2 className="font-display text-lg text-foreground">Personal Information</h2>
+        <div className="grid grid-cols-2 gap-4">
+          <PremiumInput label="Full Name" value={form.full_name} onChange={(e) => update("full_name", e.target.value)} />
+          <PremiumInput label="Phone" value={form.phone} onChange={(e) => update("phone", e.target.value)} />
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Blood Group</label>
+            <Select value={form.blood_group} onValueChange={(v) => update("blood_group", v)}>
+              <SelectTrigger className="glass border-border rounded-xl"><SelectValue placeholder="Select" /></SelectTrigger>
+              <SelectContent className="glass-strong border-border/50">
+                {BLOOD_GROUPS.map((bg) => <SelectItem key={bg} value={bg}>{bg}</SelectItem>)}
+              </SelectContent>
+            </Select>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label>Blood Group</Label>
-              <Select value={form.blood_group} onValueChange={(v) => update("blood_group", v)}>
-                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
-                <SelectContent>
-                  {BLOOD_GROUPS.map((bg) => <SelectItem key={bg} value={bg}>{bg}</SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>Gender</Label>
-              <Select value={form.gender} onValueChange={(v) => update("gender", v)}>
-                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Male">Male</SelectItem>
-                  <SelectItem value="Female">Female</SelectItem>
-                  <SelectItem value="Other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>PIN Code</Label>
-              <Input value={form.pin_code} onChange={(e) => update("pin_code", e.target.value)} />
-            </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Gender</label>
+            <Select value={form.gender} onValueChange={(v) => update("gender", v)}>
+              <SelectTrigger className="glass border-border rounded-xl"><SelectValue placeholder="Select" /></SelectTrigger>
+              <SelectContent className="glass-strong border-border/50">
+                <SelectItem value="Male">Male</SelectItem>
+                <SelectItem value="Female">Female</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>City</Label>
-              <Input value={form.city} onChange={(e) => update("city", e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <Label>State</Label>
-              <Input value={form.state} onChange={(e) => update("state", e.target.value)} />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          <PremiumInput label="PIN Code" value={form.pin_code} onChange={(e) => update("pin_code", e.target.value)} />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <PremiumInput label="City" value={form.city} onChange={(e) => update("city", e.target.value)} />
+          <PremiumInput label="State" value={form.state} onChange={(e) => update("state", e.target.value)} />
+        </div>
+      </GlassCard>
 
       {profile.role === "donor" && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-display">Donor Settings</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium text-sm">Available for Donation</p>
-                <p className="text-xs text-muted-foreground">Toggle off to pause receiving requests</p>
-              </div>
-              <Switch checked={form.is_available} onCheckedChange={(v) => update("is_available", v)} />
+        <GlassCard className="p-6 space-y-4">
+          <h2 className="font-display text-lg text-foreground">Donor Settings</h2>
+          <div className="flex items-center justify-between p-4 rounded-xl glass">
+            <div>
+              <p className="font-medium text-sm text-foreground">Available for Donation</p>
+              <p className="text-xs text-muted-foreground">Toggle off to pause receiving requests</p>
             </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium text-sm">Platelet Donor</p>
-                <p className="text-xs text-muted-foreground">Available for platelet donation</p>
-              </div>
-              <Switch checked={form.platelet_donor} onCheckedChange={(v) => update("platelet_donor", v)} />
+            <Switch checked={form.is_available} onCheckedChange={(v) => update("is_available", v)} />
+          </div>
+          <div className="flex items-center justify-between p-4 rounded-xl glass">
+            <div>
+              <p className="font-medium text-sm text-foreground">Platelet Donor</p>
+              <p className="text-xs text-muted-foreground">Available for platelet donation</p>
             </div>
-          </CardContent>
-        </Card>
+            <Switch checked={form.platelet_donor} onCheckedChange={(v) => update("platelet_donor", v)} />
+          </div>
+        </GlassCard>
       )}
 
       {profile.role === "patient" && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-display">Medical Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Cancer Type</Label>
-                <Input value={form.cancer_type} onChange={(e) => update("cancer_type", e.target.value)} placeholder="e.g., Breast Cancer" />
-              </div>
-              <div className="space-y-2">
-                <Label>Stage</Label>
-                <Input value={form.cancer_stage} onChange={(e) => update("cancer_stage", e.target.value)} placeholder="e.g., Stage II" />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Hospital</Label>
-                <Input value={form.hospital_name} onChange={(e) => update("hospital_name", e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <Label>Doctor</Label>
-                <Input value={form.doctor_name} onChange={(e) => update("doctor_name", e.target.value)} />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label>Allergies</Label>
-              <Textarea value={form.allergies} onChange={(e) => update("allergies", e.target.value)} placeholder="List any known allergies" />
-            </div>
-            <Separator />
-            <p className="text-sm font-medium">Emergency Contact</p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Name</Label>
-                <Input value={form.emergency_contact_name} onChange={(e) => update("emergency_contact_name", e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <Label>Phone</Label>
-                <Input value={form.emergency_contact_phone} onChange={(e) => update("emergency_contact_phone", e.target.value)} />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <GlassCard className="p-6 space-y-4">
+          <h2 className="font-display text-lg text-foreground">Medical Information</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <PremiumInput label="Cancer Type" value={form.cancer_type} onChange={(e) => update("cancer_type", e.target.value)} placeholder="e.g., Breast Cancer" />
+            <PremiumInput label="Stage" value={form.cancer_stage} onChange={(e) => update("cancer_stage", e.target.value)} placeholder="e.g., Stage II" />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <PremiumInput label="Hospital" value={form.hospital_name} onChange={(e) => update("hospital_name", e.target.value)} />
+            <PremiumInput label="Doctor" value={form.doctor_name} onChange={(e) => update("doctor_name", e.target.value)} />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Allergies</label>
+            <Textarea
+              value={form.allergies}
+              onChange={(e) => update("allergies", e.target.value)}
+              placeholder="List any known allergies"
+              className="glass border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:border-primary/50 focus:ring-1 focus:ring-primary/30"
+            />
+          </div>
+          <div className="h-px bg-border/30" />
+          <p className="text-sm font-medium text-foreground">Emergency Contact</p>
+          <div className="grid grid-cols-2 gap-4">
+            <PremiumInput label="Name" value={form.emergency_contact_name} onChange={(e) => update("emergency_contact_name", e.target.value)} />
+            <PremiumInput label="Phone" value={form.emergency_contact_phone} onChange={(e) => update("emergency_contact_phone", e.target.value)} />
+          </div>
+        </GlassCard>
       )}
 
-      <Button onClick={handleSave} disabled={loading} className="w-full">
+      <GlowButton onClick={handleSave} disabled={loading} className="w-full" size="lg">
         <Save className="w-4 h-4 mr-2" />
         {loading ? "Saving..." : "Save Profile"}
-      </Button>
-    </div>
+      </GlowButton>
+    </PageTransition>
   );
 }

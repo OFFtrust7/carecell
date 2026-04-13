@@ -1,10 +1,11 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital, Bot, Users } from "lucide-react";
+import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital, Bot, Users, UserPlus } from "lucide-react";
 import NotificationBell from "@/components/NotificationBell";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useAppointmentReminders } from "@/hooks/useAppointmentReminders";
+import AnimatedBackground from "@/components/premium/AnimatedBackground";
+import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_ITEMS = [
   { path: "/dashboard", label: "Dashboard", icon: Home },
@@ -15,7 +16,8 @@ const NAV_ITEMS = [
   { path: "/appointments", label: "Appointments", icon: Calendar },
   { path: "/hospital-finder", label: "Hospitals", icon: Hospital },
   { path: "/ai-chat", label: "AI Assistant", icon: Bot },
-  { path: "/patient-card", label: "Health Card", icon: CreditCard },
+  { path: "/patient-card", label: "Health Card", icon: CreditCard, role: "patient" as const },
+  { path: "/donor-details", label: "Donor Details", icon: UserPlus, role: "donor" as const },
   { path: "/profile", label: "Profile", icon: User },
 ];
 
@@ -36,81 +38,122 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Top nav */}
-      <header className="sticky top-0 z-50 bg-card border-b">
-        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="/dashboard" className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center">
-              <Heart className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="font-display text-xl text-foreground">CareCell</span>
-          </Link>
+    <div className="min-h-screen bg-background relative">
+      <AnimatedBackground variant="subtle" />
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1">
-            {filteredNav.map((item) => {
-              const Icon = item.icon;
-              const active = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    active
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                  }`}
+      {/* Glassmorphic header */}
+      <header className="sticky top-0 z-50 border-b border-border/50">
+        <div className="glass-strong">
+          <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <Link to="/dashboard" className="flex items-center gap-2.5 group">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-glow-violet to-glow-cyan flex items-center justify-center shadow-[0_0_20px_hsl(var(--glow-violet)_/_0.3)] group-hover:shadow-[0_0_30px_hsl(var(--glow-violet)_/_0.4)] transition-shadow">
+                <Heart className="w-5 h-5 text-white" />
+              </div>
+              <span className="font-display text-xl text-gradient">CareCell</span>
+            </Link>
+
+            {/* Desktop nav */}
+            <nav className="hidden lg:flex items-center gap-0.5">
+              {filteredNav.map((item) => {
+                const Icon = item.icon;
+                const active = location.pathname === item.path;
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`relative flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                      active
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Icon className={`w-4 h-4 ${active ? "text-glow-cyan" : ""}`} />
+                    <span className="hidden xl:inline">{item.label}</span>
+                    {active && (
+                      <motion.div
+                        layoutId="nav-indicator"
+                        className="absolute inset-0 rounded-lg bg-primary/10 border border-primary/20"
+                        style={{ zIndex: -1 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+                );
+              })}
+              <div className="ml-2 flex items-center gap-1">
+                <NotificationBell />
+                <button
+                  onClick={handleSignOut}
+                  className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-[hsl(var(--glass)_/_0.05)] transition-all"
                 >
-                  <Icon className="w-4 h-4" />
-                  {item.label}
-                </Link>
-              );
-            })}
-            <NotificationBell />
-            <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-muted-foreground ml-2">
-              <LogOut className="w-4 h-4" />
-            </Button>
-          </nav>
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            </nav>
 
-          {/* Mobile menu button */}
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </Button>
+            {/* Mobile controls */}
+            <div className="flex items-center gap-1 lg:hidden">
+              <NotificationBell />
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="p-2 rounded-lg text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Mobile nav */}
-        {mobileOpen && (
-          <nav className="md:hidden border-t bg-card px-4 py-2 space-y-1">
-            {filteredNav.map((item) => {
-              const Icon = item.icon;
-              const active = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                    active ? "bg-primary/10 text-primary" : "text-muted-foreground"
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {item.label}
-                </Link>
-              );
-            })}
-            <button
-              onClick={handleSignOut}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground w-full"
+        {/* Mobile nav overlay */}
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.nav
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="lg:hidden border-t border-border/50 glass-strong overflow-hidden"
             >
-              <LogOut className="w-4 h-4" />
-              Sign Out
-            </button>
-          </nav>
-        )}
+              <div className="px-4 py-3 space-y-0.5 max-h-[70vh] overflow-y-auto">
+                {filteredNav.map((item, i) => {
+                  const Icon = item.icon;
+                  const active = location.pathname === item.path;
+                  return (
+                    <motion.div
+                      key={item.path}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.03 }}
+                    >
+                      <Link
+                        to={item.path}
+                        onClick={() => setMobileOpen(false)}
+                        className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                          active
+                            ? "bg-primary/10 text-foreground border border-primary/20"
+                            : "text-muted-foreground hover:text-foreground hover:bg-[hsl(var(--glass)_/_0.05)]"
+                        }`}
+                      >
+                        <Icon className={`w-4 h-4 ${active ? "text-glow-cyan" : ""}`} />
+                        {item.label}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+                <button
+                  onClick={handleSignOut}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground w-full mt-2 border-t border-border/50 pt-3"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </button>
+              </div>
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-6">{children}</main>
+      <main className="relative z-10 max-w-6xl mx-auto px-4 py-6">{children}</main>
     </div>
   );
 }

@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { Save, ArrowLeft } from "lucide-react";
+import PageTransition from "@/components/premium/PageTransition";
+import GradientHeading from "@/components/premium/GradientHeading";
+import GlassCard from "@/components/premium/GlassCard";
+import GlowButton from "@/components/premium/GlowButton";
+import PremiumInput from "@/components/premium/PremiumInput";
 
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -65,97 +65,77 @@ export default function DonorDetailsPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-4">
-      <Button variant="ghost" size="sm" onClick={() => navigate("/donor-feed")}>
+    <PageTransition className="max-w-2xl mx-auto space-y-4">
+      <GlowButton variant="ghost" size="sm" onClick={() => navigate("/donor-feed")}>
         <ArrowLeft className="w-4 h-4 mr-1" /> Back to Donor Feed
-      </Button>
+      </GlowButton>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="font-display text-2xl">Donor Details</CardTitle>
-          <CardDescription>Enter your details so patients can find the right match</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Full Name *</Label>
-                <Input value={form.full_name} onChange={(e) => update("full_name", e.target.value)} required />
-              </div>
-              <div className="space-y-2">
-                <Label>Phone</Label>
-                <Input value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="+91..." />
-              </div>
+      <GlassCard className="p-8">
+        <GradientHeading as="h2" subtitle="Enter your details so patients can find the right match">
+          Donor Details
+        </GradientHeading>
+
+        <form onSubmit={handleSubmit} className="space-y-5 mt-6">
+          <div className="grid grid-cols-2 gap-4">
+            <PremiumInput label="Full Name *" value={form.full_name} onChange={(e) => update("full_name", e.target.value)} required />
+            <PremiumInput label="Phone" value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="+91..." />
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Blood Group *</label>
+              <Select value={form.blood_group} onValueChange={(v) => update("blood_group", v)}>
+                <SelectTrigger className="glass border-border rounded-xl"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent className="glass-strong border-border/50">
+                  {BLOOD_GROUPS.map((bg) => <SelectItem key={bg} value={bg}>{bg}</SelectItem>)}
+                </SelectContent>
+              </Select>
             </div>
-
-            <div className="grid grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label>Blood Group *</Label>
-                <Select value={form.blood_group} onValueChange={(v) => update("blood_group", v)}>
-                  <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
-                  <SelectContent>
-                    {BLOOD_GROUPS.map((bg) => <SelectItem key={bg} value={bg}>{bg}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label>Gender</Label>
-                <Select value={form.gender} onValueChange={(v) => update("gender", v)}>
-                  <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Male">Male</SelectItem>
-                    <SelectItem value="Female">Female</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label>Date of Birth</Label>
-                <Input type="date" value={form.date_of_birth} onChange={(e) => update("date_of_birth", e.target.value)} />
-              </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Gender</label>
+              <Select value={form.gender} onValueChange={(v) => update("gender", v)}>
+                <SelectTrigger className="glass border-border rounded-xl"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent className="glass-strong border-border/50">
+                  <SelectItem value="Male">Male</SelectItem>
+                  <SelectItem value="Female">Female</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
+            <PremiumInput label="Date of Birth" type="date" value={form.date_of_birth} onChange={(e) => update("date_of_birth", e.target.value)} />
+          </div>
 
-            <div className="grid grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label>City</Label>
-                <Input value={form.city} onChange={(e) => update("city", e.target.value)} />
+          <div className="grid grid-cols-3 gap-4">
+            <PremiumInput label="City" value={form.city} onChange={(e) => update("city", e.target.value)} />
+            <PremiumInput label="State" value={form.state} onChange={(e) => update("state", e.target.value)} />
+            <PremiumInput label="PIN Code" value={form.pin_code} onChange={(e) => update("pin_code", e.target.value)} />
+          </div>
+
+          <div className="h-px bg-border/30 my-2" />
+
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 rounded-xl glass">
+              <div>
+                <p className="font-medium text-sm text-foreground">Available for Donation</p>
+                <p className="text-xs text-muted-foreground">Toggle off to pause receiving requests</p>
               </div>
-              <div className="space-y-2">
-                <Label>State</Label>
-                <Input value={form.state} onChange={(e) => update("state", e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <Label>PIN Code</Label>
-                <Input value={form.pin_code} onChange={(e) => update("pin_code", e.target.value)} />
-              </div>
+              <Switch checked={form.is_available} onCheckedChange={(v) => update("is_available", v)} />
             </div>
-
-            <Separator />
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium text-sm">Available for Donation</p>
-                  <p className="text-xs text-muted-foreground">Toggle off to pause receiving requests</p>
-                </div>
-                <Switch checked={form.is_available} onCheckedChange={(v) => update("is_available", v)} />
+            <div className="flex items-center justify-between p-4 rounded-xl glass">
+              <div>
+                <p className="font-medium text-sm text-foreground">Platelet Donor</p>
+                <p className="text-xs text-muted-foreground">Available for platelet donation</p>
               </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium text-sm">Platelet Donor</p>
-                  <p className="text-xs text-muted-foreground">Available for platelet donation</p>
-                </div>
-                <Switch checked={form.platelet_donor} onCheckedChange={(v) => update("platelet_donor", v)} />
-              </div>
+              <Switch checked={form.platelet_donor} onCheckedChange={(v) => update("platelet_donor", v)} />
             </div>
+          </div>
 
-            <Button type="submit" className="w-full" disabled={loading || !form.full_name || !form.blood_group}>
-              <Save className="w-4 h-4 mr-2" />
-              {loading ? "Saving..." : "Save Donor Details"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+          <GlowButton type="submit" className="w-full" size="lg" disabled={loading || !form.full_name || !form.blood_group}>
+            <Save className="w-4 h-4 mr-2" />
+            {loading ? "Saving..." : "Save Donor Details"}
+          </GlowButton>
+        </form>
+      </GlassCard>
+    </PageTransition>
   );
 }
