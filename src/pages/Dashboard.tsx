@@ -1,12 +1,16 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Heart, Droplets, Clock, PlusCircle, Activity, Users, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
+import PageTransition from "@/components/premium/PageTransition";
+import GradientHeading from "@/components/premium/GradientHeading";
+import StatsCard from "@/components/premium/StatsCard";
+import GlassCard from "@/components/premium/GlassCard";
+import GlowButton from "@/components/premium/GlowButton";
+import EmptyState from "@/components/premium/EmptyState";
 
 const urgencyColors: Record<string, string> = {
   critical: "bg-critical text-critical-foreground",
@@ -47,69 +51,72 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-2">
-        <h1 className="text-3xl font-display text-foreground">
-          Welcome, {profile?.full_name || "there"}
-        </h1>
-        <p className="text-muted-foreground">
-          {profile?.role === "patient" ? "Manage your blood requests and health" : "Find nearby patients who need your help"}
-        </p>
-      </motion.div>
+    <PageTransition className="space-y-6">
+      <GradientHeading
+        subtitle={profile?.role === "patient" ? "Manage your blood requests and health" : "Find nearby patients who need your help"}
+      >
+        Welcome, {profile?.full_name || "there"}
+      </GradientHeading>
 
-      {/* Quick stats */}
+      {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {profile?.role === "patient" ? (
           <>
-            <StatCard icon={Activity} label="Total Requests" value={stats.total} />
-            <StatCard icon={Heart} label="Fulfilled" value={stats.fulfilled} />
-            <StatCard icon={Droplets} label="Blood Group" value={profile?.blood_group || "—"} />
-            <Card className="flex flex-col items-center justify-center p-4">
+            <StatsCard icon={Activity} label="Total Requests" value={stats.total} accentColor="violet" delay={0} />
+            <StatsCard icon={Heart} label="Fulfilled" value={stats.fulfilled} accentColor="cyan" delay={0.05} />
+            <StatsCard icon={Droplets} label="Blood Group" value={profile?.blood_group || "—"} accentColor="magenta" delay={0.1} />
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="glass rounded-2xl p-5 flex items-center justify-center"
+            >
               <Link to="/create-request">
-                <Button size="sm">
-                  <PlusCircle className="w-4 h-4 mr-2" /> New Request
-                </Button>
+                <GlowButton size="sm">
+                  <PlusCircle className="w-4 h-4 mr-1" /> New Request
+                </GlowButton>
               </Link>
-            </Card>
+            </motion.div>
           </>
         ) : (
           <>
-            <StatCard icon={Users} label="Donations" value={profile?.donation_count || 0} />
-            <StatCard icon={Activity} label="Score" value={profile?.donor_score || 0} />
-            <StatCard icon={Droplets} label="Blood Group" value={profile?.blood_group || "—"} />
-            <StatCard icon={Heart} label="Status" value={profile?.is_available ? "Available" : "Unavailable"} />
+            <StatsCard icon={Users} label="Donations" value={profile?.donation_count || 0} accentColor="violet" delay={0} />
+            <StatsCard icon={Activity} label="Score" value={profile?.donor_score || 0} accentColor="cyan" delay={0.05} />
+            <StatsCard icon={Droplets} label="Blood Group" value={profile?.blood_group || "—"} accentColor="magenta" delay={0.1} />
+            <StatsCard icon={Heart} label="Status" value={profile?.is_available ? "Available" : "Unavailable"} accentColor={profile?.is_available ? "success" : "warning"} delay={0.15} />
           </>
         )}
       </div>
 
       {/* Active requests */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="font-display text-xl">Active Blood Requests</CardTitle>
+      <GlassCard className="overflow-hidden">
+        <div className="flex items-center justify-between p-6 pb-4">
+          <h2 className="text-xl font-display text-foreground">Active Blood Requests</h2>
           {profile?.role === "donor" && (
             <Link to="/donor-feed">
-              <Button variant="outline" size="sm">View All</Button>
+              <GlowButton variant="secondary" size="sm">View All</GlowButton>
             </Link>
           )}
-        </CardHeader>
-        <CardContent>
+        </div>
+        <div className="px-6 pb-6">
           {activeRequests.length === 0 ? (
-            <p className="text-muted-foreground text-center py-8">No active requests right now</p>
+            <EmptyState icon={Droplets} title="No active requests" description="Check back soon for new blood requests" />
           ) : (
             <div className="space-y-3">
-              {activeRequests.map((req) => (
+              {activeRequests.map((req, i) => (
                 <motion.div
                   key={req.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex items-center justify-between p-4 rounded-xl border bg-card"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="flex items-center justify-between p-4 rounded-xl glass hover:bg-[hsl(var(--glass)_/_0.06)] transition-all"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-sm">
+                    <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center font-bold text-primary text-sm border border-primary/20">
                       {req.blood_group}
                     </div>
                     <div>
-                      <p className="font-medium text-sm">{req.patient_name}</p>
+                      <p className="font-medium text-sm text-foreground">{req.patient_name}</p>
                       <p className="text-xs text-muted-foreground">{req.hospital_name} • {req.city}</p>
                     </div>
                   </div>
@@ -118,7 +125,7 @@ export default function DashboardPage() {
                       {req.urgency === "critical" && <AlertTriangle className="w-3 h-3 mr-1" />}
                       {req.urgency}
                     </Badge>
-                    <Badge variant="outline">
+                    <Badge variant="outline" className="border-border/50 text-muted-foreground">
                       <Clock className="w-3 h-3 mr-1" />
                       {req.donation_type.replace("_", " ")}
                     </Badge>
@@ -127,24 +134,8 @@ export default function DashboardPage() {
               ))}
             </div>
           )}
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
-
-function StatCard({ icon: Icon, label, value }: { icon: any; label: string; value: string | number }) {
-  return (
-    <Card className="p-4">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-          <Icon className="w-5 h-5 text-primary" />
         </div>
-        <div>
-          <p className="text-xs text-muted-foreground">{label}</p>
-          <p className="text-lg font-bold font-display">{value}</p>
-        </div>
-      </div>
-    </Card>
+      </GlassCard>
+    </PageTransition>
   );
 }
