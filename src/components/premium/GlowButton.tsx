@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import { forwardRef } from "react";
 
 interface GlowButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -13,13 +12,13 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
   ({ variant = "primary", size = "md", glow = true, className, children, ...props }, ref) => {
     const variants = {
       primary:
-        "bg-gradient-to-r from-glow-violet to-glow-cyan text-white hover:shadow-[0_0_35px_hsl(var(--glow-violet)_/_0.35)]",
+        "bg-gradient-to-r from-glow-violet to-glow-cyan text-white hover:shadow-[0_0_35px_hsl(var(--glow-violet)_/_0.35)] active:scale-[0.98]",
       secondary:
-        "glass text-foreground hover:bg-[hsl(var(--glass)_/_0.08)] hover:border-[hsl(var(--glass-border)_/_0.15)]",
+        "glass text-foreground hover:bg-[hsl(var(--glass)_/_0.08)] active:scale-[0.98]",
       ghost:
         "bg-transparent text-muted-foreground hover:text-foreground hover:bg-[hsl(var(--glass)_/_0.05)]",
       danger:
-        "bg-destructive/10 text-destructive border border-destructive/20 hover:bg-destructive/20",
+        "bg-destructive/10 text-destructive border border-destructive/20 hover:bg-destructive/20 active:scale-[0.98]",
     };
 
     const sizes = {
@@ -29,12 +28,10 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
     };
 
     return (
-      <motion.button
+      <button
         ref={ref}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
         className={cn(
-          "inline-flex items-center justify-center font-medium transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none",
+          "inline-flex items-center justify-center font-medium transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none transform hover:scale-[1.02]",
           variants[variant],
           sizes[size],
           glow && variant === "primary" && "shadow-[0_0_25px_hsl(var(--glow-violet)_/_0.2)]",
@@ -43,7 +40,7 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         {...props}
       >
         {children}
-      </motion.button>
+      </button>
     );
   }
 );
