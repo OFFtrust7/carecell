@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
 
 interface GlowButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "ghost" | "danger";
+  variant?: "primary" | "secondary" | "ghost" | "danger" | "mint";
   size?: "sm" | "md" | "lg";
   glow?: boolean;
   children: React.ReactNode;
@@ -12,7 +12,9 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
   ({ variant = "primary", size = "md", glow = true, className, children, ...props }, ref) => {
     const variants = {
       primary:
-        "bg-gradient-to-r from-glow-violet to-glow-cyan text-white hover:shadow-[0_0_35px_hsl(var(--glow-violet)_/_0.35)] active:scale-[0.98]",
+        "bg-primary text-primary-foreground hover:shadow-[0_0_35px_hsl(var(--glow-red)_/_0.35)] active:scale-[0.98]",
+      mint:
+        "bg-accent text-accent-foreground hover:shadow-[0_0_35px_hsl(var(--glow-mint)_/_0.35)] active:scale-[0.98]",
       secondary:
         "glass text-foreground hover:bg-[hsl(var(--glass)_/_0.08)] active:scale-[0.98]",
       ghost:
@@ -34,7 +36,8 @@ const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
           "inline-flex items-center justify-center font-medium transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none transform hover:scale-[1.02]",
           variants[variant],
           sizes[size],
-          glow && variant === "primary" && "shadow-[0_0_25px_hsl(var(--glow-violet)_/_0.2)]",
+          glow && variant === "primary" && "shadow-[0_0_25px_hsl(var(--glow-red)_/_0.2)]",
+          glow && variant === "mint" && "shadow-[0_0_25px_hsl(var(--glow-mint)_/_0.2)]",
           className
         )}
         {...props}
