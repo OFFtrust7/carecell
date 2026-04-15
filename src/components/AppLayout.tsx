@@ -21,6 +21,22 @@ const NAV_ITEMS = [
   { path: "/profile", label: "Profile", icon: User },
 ];
 
+const BOTTOM_NAV_PATIENT = [
+  { path: "/dashboard", label: "Home", icon: Home },
+  { path: "/create-request", label: "Request", icon: PlusCircle },
+  { path: "/appointments", label: "Schedule", icon: Calendar },
+  { path: "/ai-chat", label: "AI", icon: Bot },
+  { path: "/profile", label: "Profile", icon: User },
+];
+
+const BOTTOM_NAV_DONOR = [
+  { path: "/dashboard", label: "Home", icon: Home },
+  { path: "/donor-feed", label: "Feed", icon: Droplets },
+  { path: "/donor-details", label: "Details", icon: UserPlus },
+  { path: "/ai-chat", label: "AI", icon: Bot },
+  { path: "/profile", label: "Profile", icon: User },
+];
+
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { profile, signOut } = useAuth();
   const location = useLocation();
@@ -32,6 +48,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     (item) => !item.role || item.role === profile?.role
   );
 
+  const bottomNav = profile?.role === "donor" ? BOTTOM_NAV_DONOR : BOTTOM_NAV_PATIENT;
+
   const handleSignOut = async () => {
     await signOut();
     navigate("/login");
@@ -41,15 +59,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-background relative">
       <AnimatedBackground variant="subtle" />
 
-      {/* Glassmorphic header */}
+      {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border/50">
         <div className="glass-strong">
-          <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
             <Link to="/dashboard" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-glow-violet to-glow-cyan flex items-center justify-center shadow-[0_0_20px_hsl(var(--glow-violet)_/_0.3)] group-hover:shadow-[0_0_30px_hsl(var(--glow-violet)_/_0.4)] transition-shadow">
-                <Heart className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-[0_0_16px_hsl(var(--glow-red)_/_0.3)] group-hover:shadow-[0_0_24px_hsl(var(--glow-red)_/_0.4)] transition-shadow">
+                <Heart className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="font-display text-xl text-gradient">CareCell</span>
+              <span className="font-display text-lg text-foreground">CareCell</span>
             </Link>
 
             {/* Desktop nav */}
@@ -67,7 +85,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    <Icon className={`w-4 h-4 ${active ? "text-glow-cyan" : ""}`} />
+                    <Icon className={`w-4 h-4 ${active ? "text-primary" : ""}`} />
                     <span className="hidden xl:inline">{item.label}</span>
                     {active && (
                       <motion.div
@@ -134,7 +152,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                             : "text-muted-foreground hover:text-foreground hover:bg-[hsl(var(--glass)_/_0.05)]"
                         }`}
                       >
-                        <Icon className={`w-4 h-4 ${active ? "text-glow-cyan" : ""}`} />
+                        <Icon className={`w-4 h-4 ${active ? "text-primary" : ""}`} />
                         {item.label}
                       </Link>
                     </motion.div>
@@ -153,7 +171,45 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </AnimatePresence>
       </header>
 
-      <main className="relative z-10 max-w-6xl mx-auto px-4 py-6">{children}</main>
+      <main className="relative z-10 max-w-6xl mx-auto px-4 py-6 pb-24 lg:pb-6">{children}</main>
+
+      {/* Mobile bottom nav */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden glass-strong border-t border-border/50">
+        <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-2">
+          {bottomNav.map((item) => {
+            const Icon = item.icon;
+            const active = location.pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className="relative flex flex-col items-center gap-1 py-1 px-3 group"
+              >
+                <div className={`relative p-1.5 rounded-xl transition-all duration-300 ${
+                  active ? "bg-primary/15" : "group-hover:bg-[hsl(var(--glass)_/_0.05)]"
+                }`}>
+                  <Icon className={`w-5 h-5 transition-colors duration-300 ${
+                    active ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
+                  }`} />
+                  {active && (
+                    <motion.div
+                      layoutId="bottom-nav-glow"
+                      className="absolute inset-0 rounded-xl bg-primary/10 shadow-[0_0_12px_hsl(var(--glow-red)_/_0.2)]"
+                      style={{ zIndex: -1 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </div>
+                <span className={`text-[10px] font-medium transition-colors duration-300 ${
+                  active ? "text-primary" : "text-muted-foreground"
+                }`}>
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }
