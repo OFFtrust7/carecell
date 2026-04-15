@@ -49,8 +49,8 @@ export default function LoginPage() {
       >
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-glow-violet to-glow-cyan mb-4 shadow-[0_0_40px_hsl(var(--glow-violet)_/_0.3)]">
-            <Heart className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary mb-4 shadow-[0_0_40px_hsl(var(--glow-red)_/_0.3)]">
+            <Heart className="w-8 h-8 text-primary-foreground" />
           </div>
           <h1 className="text-3xl font-display text-foreground">Welcome back</h1>
           <p className="text-muted-foreground mt-2 text-sm">Sign in to CareCell Network</p>
