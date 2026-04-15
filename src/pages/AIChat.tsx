@@ -107,7 +107,7 @@ export default function AIChatPage() {
                 )}
                 <div className={`rounded-2xl px-4 py-2.5 max-w-[80%] text-sm whitespace-pre-wrap ${
                   msg.role === "user"
-                    ? "bg-gradient-to-r from-glow-violet to-glow-cyan text-white"
+                    ? "bg-gradient-to-r from-glow-violet to-glow-mint text-white"
                     : "glass text-foreground"
                 }`}>
                   {msg.content}

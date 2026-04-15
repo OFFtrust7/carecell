@@ -22,7 +22,7 @@ import EmptyState from "@/components/premium/EmptyState";
 
 const APPOINTMENT_TYPES = [
   { value: "chemotherapy", label: "Chemotherapy", icon: Pill, color: "bg-glow-violet/10 text-glow-violet" },
-  { value: "lab_test", label: "Lab Test", icon: TestTube, color: "bg-glow-cyan/10 text-glow-cyan" },
+  { value: "lab_test", label: "Lab Test", icon: TestTube, color: "bg-glow-mint/10 text-glow-mint" },
   { value: "follow_up", label: "Follow-up Visit", icon: Stethoscope, color: "bg-success/10 text-success" },
   { value: "radiation", label: "Radiation Therapy", icon: Pill, color: "bg-warning/10 text-warning" },
   { value: "other", label: "Other", icon: CalendarIcon, color: "bg-muted text-muted-foreground" },
@@ -243,7 +243,7 @@ export default function AppointmentsPage() {
       {today.length > 0 && (
         <GlassCard holo className="p-6 space-y-3">
           <h3 className="text-base font-display flex items-center gap-2 text-foreground">
-            <Bell className="w-4 h-4 text-glow-cyan" /> Today's Appointments
+            <Bell className="w-4 h-4 text-glow-mint" /> Today's Appointments
           </h3>
           {today.map(apt => <AppointmentCard key={apt.id} apt={apt} />)}
         </GlassCard>

@@ -125,8 +125,8 @@ export default function HospitalFinderPage() {
               <GlassCard glow className="p-5 hover:bg-[hsl(var(--glass)_/_0.06)]">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3 flex-1">
-                    <div className="w-11 h-11 rounded-xl bg-glow-cyan/10 flex items-center justify-center shrink-0 border border-glow-cyan/20">
-                      <Hospital className="w-5 h-5 text-glow-cyan" />
+                    <div className="w-11 h-11 rounded-xl bg-glow-mint/10 flex items-center justify-center shrink-0 border border-glow-mint/20">
+                      <Hospital className="w-5 h-5 text-glow-mint" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-medium text-sm text-foreground">{h.name}</h3>

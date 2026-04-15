@@ -19,7 +19,7 @@ export default function NotificationBell() {
             <motion.span
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full bg-gradient-to-r from-glow-violet to-glow-cyan text-white text-[10px] flex items-center justify-center font-bold shadow-[0_0_12px_hsl(var(--glow-violet)_/_0.4)]"
+              className="absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full bg-gradient-to-r from-glow-violet to-glow-mint text-white text-[10px] flex items-center justify-center font-bold shadow-[0_0_12px_hsl(var(--glow-violet)_/_0.4)]"
             >
               {unreadCount > 9 ? "9+" : unreadCount}
             </motion.span>
@@ -59,7 +59,7 @@ export default function NotificationBell() {
                 >
                   <div className="flex items-start gap-2">
                     {!n.is_read && (
-                      <span className="mt-1.5 w-2 h-2 rounded-full bg-gradient-to-r from-glow-violet to-glow-cyan flex-shrink-0 shadow-[0_0_8px_hsl(var(--glow-violet)_/_0.4)]" />
+                      <span className="mt-1.5 w-2 h-2 rounded-full bg-gradient-to-r from-glow-violet to-glow-mint flex-shrink-0 shadow-[0_0_8px_hsl(var(--glow-violet)_/_0.4)]" />
                     )}
                     <div className={!n.is_read ? "" : "ml-4"}>
                       <p className="text-sm font-medium text-foreground">{n.title}</p>

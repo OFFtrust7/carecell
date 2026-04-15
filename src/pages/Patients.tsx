@@ -53,8 +53,8 @@ export default function PatientsPage() {
             className="cursor-pointer p-6"
           >
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-glow-cyan/10 flex items-center justify-center border border-glow-cyan/20">
-                <Hospital className="w-7 h-7 text-glow-cyan" />
+              <div className="w-14 h-14 rounded-2xl bg-glow-mint/10 flex items-center justify-center border border-glow-mint/20">
+                <Hospital className="w-7 h-7 text-glow-mint" />
               </div>
               <div className="flex-1">
                 <h3 className="font-display text-lg text-foreground">Find Hospitals</h3>
