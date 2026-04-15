@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['DM Sans', 'sans-serif'],
-        display: ['Instrument Serif', 'serif'],
+        sans: ['Inter', 'Noto Sans Devanagari', 'sans-serif'],
+        display: ['Plus Jakarta Sans', 'Noto Sans Devanagari', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -67,9 +67,9 @@ export default {
           DEFAULT: "hsl(var(--urgent))",
           foreground: "hsl(var(--urgent-foreground))",
         },
+        "glow-red": "hsl(var(--glow-red))",
+        "glow-mint": "hsl(var(--glow-mint))",
         "glow-violet": "hsl(var(--glow-violet))",
-        "glow-cyan": "hsl(var(--glow-cyan))",
-        "glow-magenta": "hsl(var(--glow-magenta))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -96,8 +96,8 @@ export default {
           to: { height: "0" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--glow-violet) / 0.2)" },
-          "50%": { boxShadow: "0 0 40px hsl(var(--glow-violet) / 0.4)" },
+          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--glow-red) / 0.2)" },
+          "50%": { boxShadow: "0 0 40px hsl(var(--glow-red) / 0.4)" },
         },
         "float": {
           "0%, 100%": { transform: "translateY(0px)" },

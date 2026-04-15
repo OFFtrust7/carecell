@@ -20,7 +20,7 @@ const NotFound = () => {
         animate={{ opacity: 1, scale: 1 }}
         className="text-center relative z-10 space-y-6"
       >
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-glow-violet to-glow-cyan mb-2 shadow-[0_0_40px_hsl(var(--glow-violet)_/_0.3)]">
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-primary mb-2 shadow-[0_0_40px_hsl(var(--glow-violet)_/_0.3)]">
           <Heart className="w-10 h-10 text-white" />
         </div>
         <h1 className="text-7xl font-display text-gradient">404</h1>

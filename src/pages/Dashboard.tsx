@@ -62,9 +62,9 @@ export default function DashboardPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {profile?.role === "patient" ? (
           <>
-            <StatsCard icon={Activity} label="Total Requests" value={stats.total} accentColor="violet" delay={0} />
-            <StatsCard icon={Heart} label="Fulfilled" value={stats.fulfilled} accentColor="cyan" delay={0.05} />
-            <StatsCard icon={Droplets} label="Blood Group" value={profile?.blood_group || "—"} accentColor="magenta" delay={0.1} />
+            <StatsCard icon={Activity} label="Total Requests" value={stats.total} accentColor="red" delay={0} />
+            <StatsCard icon={Heart} label="Fulfilled" value={stats.fulfilled} accentColor="mint" delay={0.05} />
+            <StatsCard icon={Droplets} label="Blood Group" value={profile?.blood_group || "—"} accentColor="violet" delay={0.1} />
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -80,9 +80,9 @@ export default function DashboardPage() {
           </>
         ) : (
           <>
-            <StatsCard icon={Users} label="Donations" value={profile?.donation_count || 0} accentColor="violet" delay={0} />
-            <StatsCard icon={Activity} label="Score" value={profile?.donor_score || 0} accentColor="cyan" delay={0.05} />
-            <StatsCard icon={Droplets} label="Blood Group" value={profile?.blood_group || "—"} accentColor="magenta" delay={0.1} />
+            <StatsCard icon={Users} label="Donations" value={profile?.donation_count || 0} accentColor="red" delay={0} />
+            <StatsCard icon={Activity} label="Score" value={profile?.donor_score || 0} accentColor="mint" delay={0.05} />
+            <StatsCard icon={Droplets} label="Blood Group" value={profile?.blood_group || "—"} accentColor="violet" delay={0.1} />
             <StatsCard icon={Heart} label="Status" value={profile?.is_available ? "Available" : "Unavailable"} accentColor={profile?.is_available ? "success" : "warning"} delay={0.15} />
           </>
         )}

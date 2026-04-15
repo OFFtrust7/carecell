@@ -85,8 +85,8 @@ export default function LandingPage() {
       {/* Fallback gradient — Mobile */}
       {!is3DVisible && (
         <div className="fixed inset-0 z-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(138,43,226,0.18)_0%,_transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(0,206,209,0.14)_0%,_transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(230,57,70,0.18)_0%,_transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(6,214,160,0.14)_0%,_transparent_50%)]" />
           {/* Animated SVG particles for mobile */}
           <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
             {[...Array(15)].map((_, i) => (
@@ -95,7 +95,7 @@ export default function LandingPage() {
                 cx={`${10 + Math.random() * 80}%`}
                 cy={`${10 + Math.random() * 80}%`}
                 r={1 + Math.random() * 2}
-                fill={i % 2 === 0 ? "rgba(138,43,226,0.5)" : "rgba(0,206,209,0.5)"}
+                fill={i % 2 === 0 ? "rgba(230,57,70,0.5)" : "rgba(6,214,160,0.5)"}
               >
                 <animate
                   attributeName="cy"
@@ -131,9 +131,9 @@ export default function LandingPage() {
                   alt="CareCell Network"
                   width={34}
                   height={34}
-                  className="drop-shadow-[0_0_12px_rgba(138,43,226,0.5)]"
+                  className="drop-shadow-[0_0_12px_rgba(230,57,70,0.5)]"
                 />
-                <span className="font-display text-xl bg-gradient-to-r from-[#8A2BE2] to-[#00CED1] bg-clip-text text-transparent">
+                <span className="font-display text-xl bg-gradient-to-r from-[#e63946] to-[#06d6a0] bg-clip-text text-transparent">
                   CareCell Network
                 </span>
               </motion.div>
@@ -148,7 +148,7 @@ export default function LandingPage() {
                     className="text-sm text-white/50 hover:text-white transition-colors relative group"
                   >
                     {label}
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-[#8A2BE2] to-[#00CED1] group-hover:w-full transition-all duration-300" />
+                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-[#e63946] to-[#06d6a0] group-hover:w-full transition-all duration-300" />
                   </motion.a>
                 ))}
               </nav>
@@ -165,7 +165,7 @@ export default function LandingPage() {
                 <motion.div custom={5} variants={navReveal}>
                   <MagneticButton
                     onClick={() => openModal("signup")}
-                    className="bg-gradient-to-r from-[#8A2BE2] to-[#00CED1] text-white text-sm shadow-[0_0_25px_rgba(138,43,226,0.3)]"
+                    className="bg-gradient-to-r from-[#e63946] to-[#06d6a0] text-white text-sm shadow-[0_0_25px_rgba(230,57,70,0.3)]"
                   >
                     Get Started
                   </MagneticButton>
@@ -189,7 +189,7 @@ export default function LandingPage() {
                 alt="CareCell Network Logo"
                 width={100}
                 height={100}
-                className="mx-auto drop-shadow-[0_0_40px_rgba(138,43,226,0.5)]"
+                className="mx-auto drop-shadow-[0_0_40px_rgba(230,57,70,0.5)]"
               />
             </motion.div>
 
@@ -197,8 +197,8 @@ export default function LandingPage() {
               variants={fadeUp}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.04] backdrop-blur-sm text-sm mb-8"
             >
-              <Droplets className="w-4 h-4 text-[#00CED1]" />
-              <span className="bg-gradient-to-r from-[#8A2BE2] to-[#00CED1] bg-clip-text text-transparent font-medium">
+              <Droplets className="w-4 h-4 text-[#06d6a0]" />
+              <span className="bg-gradient-to-r from-[#e63946] to-[#06d6a0] bg-clip-text text-transparent font-medium">
                 Saving lives, one donation at a time
               </span>
             </motion.div>
@@ -209,7 +209,7 @@ export default function LandingPage() {
             >
               Real-time Blood & Platelet
               <br />
-              <span className="bg-gradient-to-r from-[#8A2BE2] via-[#6B5CE7] to-[#00CED1] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#e63946] via-[#7c3aed] to-[#06d6a0] bg-clip-text text-transparent">
                 Donor Matching
               </span>
               <br />
@@ -224,7 +224,7 @@ export default function LandingPage() {
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <MagneticButton
                 onClick={() => openModal("signup")}
-                className="bg-gradient-to-r from-[#8A2BE2] to-[#00CED1] text-white shadow-[0_0_35px_rgba(138,43,226,0.35)] hover:shadow-[0_0_50px_rgba(138,43,226,0.5)] text-base"
+                className="bg-gradient-to-r from-[#e63946] to-[#06d6a0] text-white shadow-[0_0_35px_rgba(230,57,70,0.35)] hover:shadow-[0_0_50px_rgba(230,57,70,0.5)] text-base"
               >
                 Join as Donor <ArrowRight className="w-4 h-4 ml-2 inline-block" />
               </MagneticButton>
@@ -265,8 +265,8 @@ export default function LandingPage() {
               className="rounded-3xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-2xl p-8 md:p-14"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#8A2BE2]/20 to-[#00CED1]/20 border border-white/10 flex items-center justify-center">
-                  <Heart className="w-5 h-5 text-[#00CED1]" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e63946]/20 to-[#06d6a0]/20 border border-white/10 flex items-center justify-center">
+                  <Heart className="w-5 h-5 text-[#06d6a0]" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-display">About CareCell</h2>
               </div>
@@ -291,8 +291,8 @@ export default function LandingPage() {
                     transition={{ delay: i * 0.1 }}
                     className="text-center"
                   >
-                    <Icon className="w-4 h-4 mx-auto text-[#00CED1]/50 mb-2" />
-                    <p className="text-2xl font-display bg-gradient-to-r from-[#8A2BE2] to-[#00CED1] bg-clip-text text-transparent">
+                    <Icon className="w-4 h-4 mx-auto text-[#06d6a0]/50 mb-2" />
+                    <p className="text-2xl font-display bg-gradient-to-r from-[#e63946] to-[#06d6a0] bg-clip-text text-transparent">
                       {v}
                     </p>
                     <p className="text-xs text-white/35">{l}</p>
@@ -348,8 +348,8 @@ export default function LandingPage() {
                   }}
                   className="group rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-xl p-7 text-center hover:border-white/[0.15] hover:bg-white/[0.04] transition-all duration-500"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8A2BE2]/15 to-[#00CED1]/15 border border-white/[0.08] flex items-center justify-center mx-auto mb-5 group-hover:shadow-[0_0_30px_rgba(138,43,226,0.15)] transition-shadow duration-500">
-                    <card.icon className="w-7 h-7 text-[#00CED1]" />
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#e63946]/15 to-[#06d6a0]/15 border border-white/[0.08] flex items-center justify-center mx-auto mb-5 group-hover:shadow-[0_0_30px_rgba(230,57,70,0.15)] transition-shadow duration-500">
+                    <card.icon className="w-7 h-7 text-[#06d6a0]" />
                   </div>
                   <h3 className="text-lg font-display mb-2">{card.title}</h3>
                   <p className="text-sm text-white/35 leading-relaxed">{card.desc}</p>
@@ -390,9 +390,9 @@ export default function LandingPage() {
               </div>
               <div className="p-6 md:p-8 grid md:grid-cols-3 gap-4">
                 {[
-                  { title: "Active Requests", value: "12", color: "from-[#8A2BE2]" },
-                  { title: "Donors Matched", value: "47", color: "from-[#00CED1]" },
-                  { title: "Lives Saved", value: "156", color: "from-[#6B5CE7]" },
+                  { title: "Active Requests", value: "12", color: "from-[#e63946]" },
+                  { title: "Donors Matched", value: "47", color: "from-[#06d6a0]" },
+                  { title: "Lives Saved", value: "156", color: "from-[#7c3aed]" },
                 ].map((stat, i) => (
                   <motion.div
                     key={stat.title}
@@ -403,7 +403,7 @@ export default function LandingPage() {
                     className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5"
                   >
                     <p className="text-xs text-white/30 mb-1">{stat.title}</p>
-                    <p className={`text-3xl font-display bg-gradient-to-r ${stat.color} to-[#00CED1] bg-clip-text text-transparent`}>
+                    <p className={`text-3xl font-display bg-gradient-to-r ${stat.color} to-[#06d6a0] bg-clip-text text-transparent`}>
                       {stat.value}
                     </p>
                   </motion.div>
@@ -422,8 +422,8 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="rounded-3xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-xl p-10 text-center"
             >
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8A2BE2]/15 to-[#00CED1]/15 border border-white/10 flex items-center justify-center mx-auto mb-5">
-                <Shield className="w-7 h-7 text-[#00CED1]" />
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#e63946]/15 to-[#06d6a0]/15 border border-white/10 flex items-center justify-center mx-auto mb-5">
+                <Shield className="w-7 h-7 text-[#06d6a0]" />
               </div>
               <h2 className="text-2xl font-display mb-3">Secure & Private</h2>
               <p className="text-white/35 leading-relaxed">
@@ -449,7 +449,7 @@ export default function LandingPage() {
             <p className="text-white/35 mb-8">Join CareCell Network today and help save lives.</p>
             <MagneticButton
               onClick={() => openModal("signup")}
-              className="bg-gradient-to-r from-[#8A2BE2] to-[#00CED1] text-white text-base shadow-[0_0_35px_rgba(138,43,226,0.3)]"
+              className="bg-gradient-to-r from-[#e63946] to-[#06d6a0] text-white text-base shadow-[0_0_35px_rgba(230,57,70,0.3)]"
             >
               Get Started Now <ArrowRight className="w-4 h-4 ml-2 inline-block" />
             </MagneticButton>
@@ -507,7 +507,7 @@ function AuthModal({
         animate="visible"
         exit="exit"
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-md rounded-3xl border border-white/[0.1] bg-[#0d0d1a]/95 backdrop-blur-2xl p-8 shadow-[0_0_80px_rgba(138,43,226,0.1)]"
+        className="relative w-full max-w-md rounded-3xl border border-white/[0.1] bg-[#0d0d1a]/95 backdrop-blur-2xl p-8 shadow-[0_0_80px_rgba(230,57,70,0.1)]"
       >
         {/* Close */}
         <button
@@ -524,7 +524,7 @@ function AuthModal({
             alt="CareCell"
             width={48}
             height={48}
-            className="mx-auto mb-4 drop-shadow-[0_0_20px_rgba(138,43,226,0.4)]"
+            className="mx-auto mb-4 drop-shadow-[0_0_20px_rgba(230,57,70,0.4)]"
           />
           <h2 className="text-2xl font-display">
             {mode === "signin" ? "Welcome Back" : "Join CareCell"}
@@ -564,7 +564,7 @@ function AuthModal({
 
           <MagneticButton
             onClick={() => navigate(mode === "signin" ? "/login" : "/register")}
-            className="w-full bg-gradient-to-r from-[#8A2BE2] to-[#00CED1] text-white shadow-[0_0_25px_rgba(138,43,226,0.25)] py-3"
+            className="w-full bg-gradient-to-r from-[#e63946] to-[#06d6a0] text-white shadow-[0_0_25px_rgba(230,57,70,0.25)] py-3"
           >
             {mode === "signin" ? "Sign In" : "Create Account"}
           </MagneticButton>
@@ -572,7 +572,7 @@ function AuthModal({
 
         <p className="text-center text-sm text-white/30 mt-6">
           {mode === "signin" ? "Don't have an account?" : "Already have an account?"}{" "}
-          <button onClick={onSwitch} className="text-[#00CED1] hover:underline">
+          <button onClick={onSwitch} className="text-[#06d6a0] hover:underline">
             {mode === "signin" ? "Sign Up" : "Sign In"}
           </button>
         </p>
@@ -595,12 +595,12 @@ function FloatingInput({ label, type }: { label: string; type: string }) {
           setFocused(false);
           setHasValue(e.target.value.length > 0);
         }}
-        className="w-full px-4 pt-5 pb-2 rounded-xl border border-white/[0.1] bg-white/[0.03] text-white outline-none focus:border-[#8A2BE2]/50 focus:ring-1 focus:ring-[#8A2BE2]/30 transition-all peer"
+        className="w-full px-4 pt-5 pb-2 rounded-xl border border-white/[0.1] bg-white/[0.03] text-white outline-none focus:border-[#e63946]/50 focus:ring-1 focus:ring-[#e63946]/30 transition-all peer"
       />
       <label
         className={`absolute left-4 transition-all duration-200 pointer-events-none ${
           focused || hasValue
-            ? "top-1.5 text-[10px] text-[#00CED1]"
+            ? "top-1.5 text-[10px] text-[#06d6a0]"
             : "top-3.5 text-sm text-white/30"
         }`}
       >

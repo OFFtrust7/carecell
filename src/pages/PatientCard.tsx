@@ -25,7 +25,7 @@ export default function PatientCardPage() {
 
       <GlassCard holo className="overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-glow-violet to-glow-cyan px-6 py-4 flex items-center gap-3">
+        <div className="bg-primary px-6 py-4 flex items-center gap-3">
           <Heart className="w-6 h-6 text-white" />
           <span className="text-white font-display text-xl">CareCell Health Card</span>
         </div>

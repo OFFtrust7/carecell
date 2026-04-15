@@ -65,8 +65,8 @@ export default function RegisterPage() {
         className="w-full max-w-md relative z-10"
       >
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-glow-violet to-glow-cyan mb-4 shadow-[0_0_40px_hsl(var(--glow-violet)_/_0.3)]">
-            <Heart className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary mb-4 shadow-[0_0_40px_hsl(var(--glow-red)_/_0.3)]">
+            <Heart className="w-8 h-8 text-primary-foreground" />
           </div>
           <h1 className="text-3xl font-display text-foreground">Join CareCell</h1>
           <p className="text-muted-foreground mt-2 text-sm">Help save lives through blood donation</p>
@@ -111,8 +111,8 @@ export default function RegisterPage() {
                 <p className="text-sm font-medium text-foreground">I am a</p>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { value: "donor" as const, icon: Droplets, label: "Blood Donor" },
-                    { value: "patient" as const, icon: Users, label: "Patient" },
+                    { value: "donor" as const, icon: Droplets, label: "Blood Donor", desc: "I want to help by donating" },
+                    { value: "patient" as const, icon: Users, label: "Patient", desc: "I need healthcare support" },
                   ].map((opt) => (
                     <button
                       key={opt.value}
@@ -120,12 +120,13 @@ export default function RegisterPage() {
                       onClick={() => setRole(opt.value)}
                       className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-300 ${
                         role === opt.value
-                          ? "border-primary bg-primary/10 shadow-[0_0_20px_hsl(var(--glow-violet)_/_0.15)]"
+                          ? "border-primary bg-primary/10 shadow-[0_0_20px_hsl(var(--glow-red)_/_0.15)]"
                           : "border-border hover:border-border/80"
                       }`}
                     >
-                      <opt.icon className={`w-6 h-6 ${role === opt.value ? "text-glow-cyan" : "text-muted-foreground"}`} />
+                      <opt.icon className={`w-6 h-6 ${role === opt.value ? "text-primary" : "text-muted-foreground"}`} />
                       <span className="font-medium text-sm">{opt.label}</span>
+                      <span className="text-[10px] text-muted-foreground text-center">{opt.desc}</span>
                     </button>
                   ))}
                 </div>
