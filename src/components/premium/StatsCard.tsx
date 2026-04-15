@@ -7,19 +7,19 @@ interface StatsCardProps {
   label: string;
   value: string | number;
   trend?: string;
-  accentColor?: "violet" | "cyan" | "magenta" | "success" | "warning";
+  accentColor?: "red" | "mint" | "violet" | "success" | "warning";
   delay?: number;
 }
 
 const colorMap = {
-  violet: { bg: "bg-glow-violet/10", text: "text-glow-violet", glow: "shadow-[0_0_20px_hsl(var(--glow-violet)_/_0.1)]" },
-  cyan: { bg: "bg-glow-cyan/10", text: "text-glow-cyan", glow: "shadow-[0_0_20px_hsl(var(--glow-cyan)_/_0.1)]" },
-  magenta: { bg: "bg-glow-magenta/10", text: "text-glow-magenta", glow: "shadow-[0_0_20px_hsl(var(--glow-magenta)_/_0.1)]" },
-  success: { bg: "bg-success/10", text: "text-success", glow: "" },
-  warning: { bg: "bg-warning/10", text: "text-warning", glow: "" },
+  red: { bg: "bg-primary/10", text: "text-primary", border: "border-primary/20", glow: "shadow-[0_0_20px_hsl(var(--glow-red)_/_0.1)]" },
+  mint: { bg: "bg-accent/10", text: "text-accent", border: "border-accent/20", glow: "shadow-[0_0_20px_hsl(var(--glow-mint)_/_0.1)]" },
+  violet: { bg: "bg-glow-violet/10", text: "text-glow-violet", border: "border-glow-violet/20", glow: "shadow-[0_0_20px_hsl(var(--glow-violet)_/_0.1)]" },
+  success: { bg: "bg-success/10", text: "text-success", border: "border-success/20", glow: "" },
+  warning: { bg: "bg-warning/10", text: "text-warning", border: "border-warning/20", glow: "" },
 };
 
-export default function StatsCard({ icon: Icon, label, value, trend, accentColor = "violet", delay = 0 }: StatsCardProps) {
+export default function StatsCard({ icon: Icon, label, value, trend, accentColor = "red", delay = 0 }: StatsCardProps) {
   const colors = colorMap[accentColor];
 
   return (
@@ -30,7 +30,7 @@ export default function StatsCard({ icon: Icon, label, value, trend, accentColor
       className={cn("glass rounded-2xl p-5 hover:bg-[hsl(var(--glass)_/_0.06)] transition-all duration-300", colors.glow)}
     >
       <div className="flex items-start justify-between">
-        <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", colors.bg)}>
+        <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center border", colors.bg, colors.border)}>
           <Icon className={cn("w-5 h-5", colors.text)} />
         </div>
         {trend && (
