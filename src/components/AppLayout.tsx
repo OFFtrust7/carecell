@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital, Bot, Users, UserPlus } from "lucide-react";
+import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital, Bot, Users, UserPlus, Activity, FileText, Siren, Search } from "lucide-react";
 import NotificationBell from "@/components/NotificationBell";
 import { useState } from "react";
 import { useAppointmentReminders } from "@/hooks/useAppointmentReminders";
@@ -9,22 +9,27 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_ITEMS = [
   { path: "/dashboard", label: "Dashboard", icon: Home },
+  { path: "/emergency", label: "Emergency", icon: Siren },
   { path: "/create-request", label: "New Request", icon: PlusCircle, role: "patient" as const },
-  { path: "/donor-feed", label: "Donor Feed", icon: Droplets, role: "donor" as const },
   { path: "/my-requests", label: "My Requests", icon: Droplets, role: "patient" as const },
-  { path: "/patients", label: "Patients", icon: Users },
+  { path: "/donor-matching", label: "Find Donors", icon: Search, role: "patient" as const },
+  { path: "/treatment-timeline", label: "Timeline", icon: Activity, role: "patient" as const },
+  { path: "/medical-documents", label: "Documents", icon: FileText, role: "patient" as const },
+  { path: "/caregivers", label: "Caregivers", icon: Users, role: "patient" as const },
+  { path: "/donor-feed", label: "Donor Feed", icon: Droplets, role: "donor" as const },
+  { path: "/donor-details", label: "Donor Details", icon: UserPlus, role: "donor" as const },
   { path: "/appointments", label: "Appointments", icon: Calendar },
   { path: "/hospital-finder", label: "Hospitals", icon: Hospital },
   { path: "/ai-chat", label: "AI Assistant", icon: Bot },
   { path: "/patient-card", label: "Health Card", icon: CreditCard, role: "patient" as const },
-  { path: "/donor-details", label: "Donor Details", icon: UserPlus, role: "donor" as const },
+  { path: "/patients", label: "Patients", icon: Users },
   { path: "/profile", label: "Profile", icon: User },
 ];
 
 const BOTTOM_NAV_PATIENT = [
   { path: "/dashboard", label: "Home", icon: Home },
-  { path: "/create-request", label: "Request", icon: PlusCircle },
-  { path: "/appointments", label: "Schedule", icon: Calendar },
+  { path: "/emergency", label: "SOS", icon: Siren },
+  { path: "/treatment-timeline", label: "Timeline", icon: Activity },
   { path: "/ai-chat", label: "AI", icon: Bot },
   { path: "/profile", label: "Profile", icon: User },
 ];
