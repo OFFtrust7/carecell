@@ -131,6 +131,84 @@ export type Database = {
         }
         Relationships: []
       }
+      caregiver_links: {
+        Row: {
+          accepted_at: string | null
+          access_scope: string
+          caregiver_email: string
+          caregiver_id: string | null
+          created_at: string
+          id: string
+          invite_code: string | null
+          patient_id: string
+          relationship: string | null
+          status: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          access_scope?: string
+          caregiver_email: string
+          caregiver_id?: string | null
+          created_at?: string
+          id?: string
+          invite_code?: string | null
+          patient_id: string
+          relationship?: string | null
+          status?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          access_scope?: string
+          caregiver_email?: string
+          caregiver_id?: string | null
+          created_at?: string
+          id?: string
+          invite_code?: string | null
+          patient_id?: string
+          relationship?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      donor_eligibility: {
+        Row: {
+          created_at: string
+          id: string
+          ineligibility_reason: string | null
+          is_eligible: boolean
+          next_eligible_date: string | null
+          on_medication: boolean
+          recent_illness: boolean
+          recent_travel: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ineligibility_reason?: string | null
+          is_eligible?: boolean
+          next_eligible_date?: string | null
+          on_medication?: boolean
+          recent_illness?: boolean
+          recent_travel?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ineligibility_reason?: string | null
+          is_eligible?: boolean
+          next_eligible_date?: string | null
+          on_medication?: boolean
+          recent_illness?: boolean
+          recent_travel?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       donor_responses: {
         Row: {
           created_at: string
@@ -176,6 +254,96 @@ export type Database = {
           },
         ]
       }
+      emergency_requests: {
+        Row: {
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city: string | null
+          contact_phone: string
+          created_at: string
+          hospital_name: string | null
+          id: string
+          latitude: number | null
+          longitude: number | null
+          patient_id: string
+          patient_name: string
+          reason: string
+          resolved_at: string | null
+          status: string
+        }
+        Insert: {
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city?: string | null
+          contact_phone: string
+          created_at?: string
+          hospital_name?: string | null
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          patient_id: string
+          patient_name: string
+          reason: string
+          resolved_at?: string | null
+          status?: string
+        }
+        Update: {
+          blood_group?: Database["public"]["Enums"]["blood_group"]
+          city?: string | null
+          contact_phone?: string
+          created_at?: string
+          hospital_name?: string | null
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          patient_id?: string
+          patient_name?: string
+          reason?: string
+          resolved_at?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      medical_documents: {
+        Row: {
+          created_at: string
+          doc_type: string
+          document_date: string | null
+          file_path: string
+          file_size_kb: number | null
+          id: string
+          mime_type: string | null
+          notes: string | null
+          patient_id: string
+          title: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          doc_type: string
+          document_date?: string | null
+          file_path: string
+          file_size_kb?: number | null
+          id?: string
+          mime_type?: string | null
+          notes?: string | null
+          patient_id: string
+          title: string
+          uploaded_by: string
+        }
+        Update: {
+          created_at?: string
+          doc_type?: string
+          document_date?: string | null
+          file_path?: string
+          file_size_kb?: number | null
+          id?: string
+          mime_type?: string | null
+          notes?: string | null
+          patient_id?: string
+          title?: string
+          uploaded_by?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string
@@ -211,11 +379,13 @@ export type Database = {
       }
       profiles: {
         Row: {
+          accepts_emergency_calls: boolean
           allergies: string | null
           avatar_url: string | null
           blood_group: Database["public"]["Enums"]["blood_group"] | null
           cancer_stage: string | null
           cancer_type: string | null
+          chronic_conditions: string | null
           city: string | null
           created_at: string
           date_of_birth: string | null
@@ -230,8 +400,10 @@ export type Database = {
           id: string
           is_available: boolean
           last_donation_date: string | null
+          last_health_check: string | null
           latitude: number | null
           longitude: number | null
+          medications: string | null
           phone: string | null
           pin_code: string | null
           platelet_donor: boolean
@@ -239,13 +411,16 @@ export type Database = {
           state: string | null
           updated_at: string
           user_id: string
+          weight_kg: number | null
         }
         Insert: {
+          accepts_emergency_calls?: boolean
           allergies?: string | null
           avatar_url?: string | null
           blood_group?: Database["public"]["Enums"]["blood_group"] | null
           cancer_stage?: string | null
           cancer_type?: string | null
+          chronic_conditions?: string | null
           city?: string | null
           created_at?: string
           date_of_birth?: string | null
@@ -260,8 +435,10 @@ export type Database = {
           id?: string
           is_available?: boolean
           last_donation_date?: string | null
+          last_health_check?: string | null
           latitude?: number | null
           longitude?: number | null
+          medications?: string | null
           phone?: string | null
           pin_code?: string | null
           platelet_donor?: boolean
@@ -269,13 +446,16 @@ export type Database = {
           state?: string | null
           updated_at?: string
           user_id: string
+          weight_kg?: number | null
         }
         Update: {
+          accepts_emergency_calls?: boolean
           allergies?: string | null
           avatar_url?: string | null
           blood_group?: Database["public"]["Enums"]["blood_group"] | null
           cancer_stage?: string | null
           cancer_type?: string | null
+          chronic_conditions?: string | null
           city?: string | null
           created_at?: string
           date_of_birth?: string | null
@@ -290,8 +470,10 @@ export type Database = {
           id?: string
           is_available?: boolean
           last_donation_date?: string | null
+          last_health_check?: string | null
           latitude?: number | null
           longitude?: number | null
+          medications?: string | null
           phone?: string | null
           pin_code?: string | null
           platelet_donor?: boolean
@@ -299,6 +481,94 @@ export type Database = {
           state?: string | null
           updated_at?: string
           user_id?: string
+          weight_kg?: number | null
+        }
+        Relationships: []
+      }
+      request_status_history: {
+        Row: {
+          changed_by: string | null
+          created_at: string
+          id: string
+          new_status: string
+          note: string | null
+          old_status: string | null
+          request_id: string
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          new_status: string
+          note?: string | null
+          old_status?: string | null
+          request_id: string
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          new_status?: string
+          note?: string | null
+          old_status?: string | null
+          request_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "request_status_history_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "blood_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "request_status_history_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "blood_requests_safe"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      treatment_events: {
+        Row: {
+          created_at: string
+          description: string | null
+          doctor_name: string | null
+          event_date: string
+          event_type: string
+          hospital_name: string | null
+          id: string
+          patient_id: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          doctor_name?: string | null
+          event_date: string
+          event_type: string
+          hospital_name?: string | null
+          id?: string
+          patient_id: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          doctor_name?: string | null
+          event_date?: string
+          event_type?: string
+          hospital_name?: string | null
+          id?: string
+          patient_id?: string
+          status?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -395,6 +665,30 @@ export type Database = {
       get_request_contact_phone: {
         Args: { p_request_id: string }
         Returns: string
+      }
+      is_active_caregiver: {
+        Args: { p_caregiver: string; p_patient: string }
+        Returns: boolean
+      }
+      is_active_caregiver_with_edit: {
+        Args: { p_caregiver: string; p_patient: string }
+        Returns: boolean
+      }
+      match_donors: {
+        Args: { p_blood_group: string; p_city?: string; p_limit?: number }
+        Returns: {
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city: string
+          donation_count: number
+          donor_score: number
+          full_name: string
+          is_available: boolean
+          last_donation_date: string
+          match_score: number
+          next_eligible_date: string
+          state: string
+          user_id: string
+        }[]
       }
     }
     Enums: {

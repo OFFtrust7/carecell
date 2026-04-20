@@ -21,6 +21,11 @@ import HospitalFinderPage from "./pages/HospitalFinder";
 import AIChatPage from "./pages/AIChat";
 import PatientsPage from "./pages/Patients";
 import DonorDetailsPage from "./pages/DonorDetails";
+import TreatmentTimelinePage from "./pages/TreatmentTimeline";
+import MedicalDocumentsPage from "./pages/MedicalDocuments";
+import EmergencyPage from "./pages/Emergency";
+import CaregiversPage from "./pages/Caregivers";
+import DonorMatchingPage from "./pages/DonorMatching";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,11 +49,16 @@ const App = () => (
             <Route path="/hospital-finder" element={<ProtectedRoute><AppLayout><HospitalFinderPage /></AppLayout></ProtectedRoute>} />
             <Route path="/ai-chat" element={<ProtectedRoute><AppLayout><AIChatPage /></AppLayout></ProtectedRoute>} />
             <Route path="/patients" element={<ProtectedRoute><AppLayout><PatientsPage /></AppLayout></ProtectedRoute>} />
+            <Route path="/emergency" element={<ProtectedRoute><AppLayout><EmergencyPage /></AppLayout></ProtectedRoute>} />
 
             {/* Patient-only routes */}
             <Route path="/create-request" element={<ProtectedRoute><RoleProtectedRoute allowedRole="patient"><AppLayout><CreateRequestPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
             <Route path="/my-requests" element={<ProtectedRoute><RoleProtectedRoute allowedRole="patient"><AppLayout><MyRequestsPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
             <Route path="/patient-card" element={<ProtectedRoute><RoleProtectedRoute allowedRole="patient"><AppLayout><PatientCardPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
+            <Route path="/treatment-timeline" element={<ProtectedRoute><RoleProtectedRoute allowedRole="patient"><AppLayout><TreatmentTimelinePage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
+            <Route path="/medical-documents" element={<ProtectedRoute><RoleProtectedRoute allowedRole="patient"><AppLayout><MedicalDocumentsPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
+            <Route path="/caregivers" element={<ProtectedRoute><RoleProtectedRoute allowedRole="patient"><AppLayout><CaregiversPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
+            <Route path="/donor-matching" element={<ProtectedRoute><RoleProtectedRoute allowedRole="patient"><AppLayout><DonorMatchingPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />
 
             {/* Donor-only routes */}
             <Route path="/donor-feed" element={<ProtectedRoute><RoleProtectedRoute allowedRole="donor"><AppLayout><DonorFeedPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />

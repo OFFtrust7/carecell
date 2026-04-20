@@ -11,6 +11,7 @@ import GradientHeading from "@/components/premium/GradientHeading";
 import GlassCard from "@/components/premium/GlassCard";
 import GlowButton from "@/components/premium/GlowButton";
 import EmptyState from "@/components/premium/EmptyState";
+import RequestStatusTimeline from "@/components/RequestStatusTimeline";
 
 const statusColors: Record<string, string> = {
   active: "bg-success text-success-foreground",
@@ -142,6 +143,8 @@ function RequestCard({ req, responses, onCancel, onConfirm }: { req: any; respon
           ))}
         </div>
       )}
+
+      <RequestStatusTimeline requestId={req.id} />
 
       {req.status === "active" && (
         <GlowButton variant="danger" size="sm" onClick={() => onCancel(req.id)}>
