@@ -645,6 +645,10 @@ export type Database = {
       }
     }
     Functions: {
+      accept_caregiver_invite: {
+        Args: { p_invite_code: string }
+        Returns: Json
+      }
       get_donor_profiles: {
         Args: { p_blood_group?: string; p_city?: string }
         Returns: {
@@ -666,6 +670,10 @@ export type Database = {
         Args: { p_request_id: string }
         Returns: string
       }
+      haversine_km: {
+        Args: { lat1: number; lat2: number; lon1: number; lon2: number }
+        Returns: number
+      }
       is_active_caregiver: {
         Args: { p_caregiver: string; p_patient: string }
         Returns: boolean
@@ -684,6 +692,32 @@ export type Database = {
           full_name: string
           is_available: boolean
           last_donation_date: string
+          match_score: number
+          next_eligible_date: string
+          state: string
+          user_id: string
+        }[]
+      }
+      match_donors_v2: {
+        Args: {
+          p_blood_group: string
+          p_city?: string
+          p_emergency?: boolean
+          p_lat?: number
+          p_limit?: number
+          p_lng?: number
+        }
+        Returns: {
+          accepts_emergency_calls: boolean
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city: string
+          distance_km: number
+          donation_count: number
+          donor_score: number
+          full_name: string
+          is_available: boolean
+          last_donation_date: string
+          match_label: string
           match_score: number
           next_eligible_date: string
           state: string
