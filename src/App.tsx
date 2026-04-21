@@ -26,6 +26,10 @@ import MedicalDocumentsPage from "./pages/MedicalDocuments";
 import EmergencyPage from "./pages/Emergency";
 import CaregiversPage from "./pages/Caregivers";
 import DonorMatchingPage from "./pages/DonorMatching";
+import NotificationsPage from "./pages/Notifications";
+import AcceptInvitePage from "./pages/AcceptInvite";
+import CaregiverDashboardPage from "./pages/CaregiverDashboard";
+import CaregiverPatientViewPage from "./pages/CaregiverPatientView";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -50,6 +54,10 @@ const App = () => (
             <Route path="/ai-chat" element={<ProtectedRoute><AppLayout><AIChatPage /></AppLayout></ProtectedRoute>} />
             <Route path="/patients" element={<ProtectedRoute><AppLayout><PatientsPage /></AppLayout></ProtectedRoute>} />
             <Route path="/emergency" element={<ProtectedRoute><AppLayout><EmergencyPage /></AppLayout></ProtectedRoute>} />
+            <Route path="/notifications" element={<ProtectedRoute><AppLayout><NotificationsPage /></AppLayout></ProtectedRoute>} />
+            <Route path="/accept-invite" element={<ProtectedRoute><AppLayout><AcceptInvitePage /></AppLayout></ProtectedRoute>} />
+            <Route path="/caregiver" element={<ProtectedRoute><AppLayout><CaregiverDashboardPage /></AppLayout></ProtectedRoute>} />
+            <Route path="/caregiver/patient/:patientId" element={<ProtectedRoute><AppLayout><CaregiverPatientViewPage /></AppLayout></ProtectedRoute>} />
 
             {/* Patient-only routes */}
             <Route path="/create-request" element={<ProtectedRoute><RoleProtectedRoute allowedRole="patient"><AppLayout><CreateRequestPage /></AppLayout></RoleProtectedRoute></ProtectedRoute>} />

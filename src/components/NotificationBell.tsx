@@ -74,13 +74,11 @@ export default function NotificationBell() {
             </AnimatePresence>
           )}
         </div>
-        {notifications.length > 0 && notifications[0].type === "donor_response" && (
-          <div className="border-t border-border/50 px-4 py-2.5">
-            <Link to="/my-requests" onClick={() => setOpen(false)} className="text-xs text-accent hover:underline">
-              View My Requests →
-            </Link>
-          </div>
-        )}
+        <div className="border-t border-border/50 px-4 py-2.5 text-center">
+          <Link to="/notifications" onClick={() => setOpen(false)} className="text-xs text-accent hover:underline">
+            See all notifications →
+          </Link>
+        </div>
       </PopoverContent>
     </Popover>
   );
