@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, Phone, Clock, Search, Navigation, Hospital, Star, ExternalLink } from "lucide-react";
+import { MapPin, Phone, Clock, Search, Navigation, Hospital, Star, ExternalLink, Droplets, Activity, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import PageTransition from "@/components/premium/PageTransition";
@@ -26,14 +26,20 @@ const INDIAN_CITIES = [
 ];
 
 const SAMPLE_HOSPITALS: HospitalResult[] = [
-  { name: "Tata Memorial Hospital", vicinity: "Dr. E Borges Road, Parel, Mumbai", rating: 4.5, user_ratings_total: 12500, opening_hours: { open_now: true }, geometry: { location: { lat: 19.0048, lng: 72.8426 } }, place_id: "tata", types: ["hospital"], distance: 2.1 },
-  { name: "AIIMS Blood Bank", vicinity: "Ansari Nagar, New Delhi", rating: 4.3, user_ratings_total: 8600, opening_hours: { open_now: true }, geometry: { location: { lat: 28.5672, lng: 77.2100 } }, place_id: "aiims", types: ["hospital"], distance: 3.5 },
-  { name: "Rajiv Gandhi Cancer Institute", vicinity: "Sector 5, Rohini, Delhi", rating: 4.4, user_ratings_total: 6200, opening_hours: { open_now: true }, geometry: { location: { lat: 28.7340, lng: 77.1130 } }, place_id: "rgci", types: ["hospital"], distance: 5.8 },
-  { name: "Kidwai Memorial Institute of Oncology", vicinity: "Dr MH Marigowda Road, Bengaluru", rating: 4.1, user_ratings_total: 4300, opening_hours: { open_now: false }, geometry: { location: { lat: 12.9375, lng: 77.5741 } }, place_id: "kidwai", types: ["hospital"], distance: 7.2 },
-  { name: "Adyar Cancer Institute", vicinity: "East Canal Bank Road, Chennai", rating: 4.6, user_ratings_total: 5100, opening_hours: { open_now: true }, geometry: { location: { lat: 13.0067, lng: 80.2573 } }, place_id: "adyar", types: ["hospital"], distance: 4.0 },
-  { name: "CMC Vellore Blood Bank", vicinity: "Ida Scudder Road, Vellore", rating: 4.7, user_ratings_total: 9800, opening_hours: { open_now: true }, geometry: { location: { lat: 12.9249, lng: 79.1326 } }, place_id: "cmc", types: ["hospital"], distance: 12.5 },
-  { name: "MNJ Institute of Oncology", vicinity: "Red Hills, Hyderabad", rating: 4.0, user_ratings_total: 3200, opening_hours: { open_now: true }, geometry: { location: { lat: 17.3920, lng: 78.4870 } }, place_id: "mnj", types: ["hospital"], distance: 6.3 },
-  { name: "Gujarat Cancer Research Institute", vicinity: "Civil Hospital Campus, Ahmedabad", rating: 4.2, user_ratings_total: 2800, opening_hours: { open_now: false }, geometry: { location: { lat: 23.0605, lng: 72.5870 } }, place_id: "gcri", types: ["hospital"], distance: 8.1 },
+type Category = "cancer" | "blood_bank" | "icu";
+
+interface Place extends HospitalResult { categories: Category[]; phone?: string; }
+
+const SAMPLE_HOSPITALS: Place[] = [
+  { name: "Tata Memorial Hospital", vicinity: "Dr. E Borges Road, Parel, Mumbai", rating: 4.5, user_ratings_total: 12500, opening_hours: { open_now: true }, geometry: { location: { lat: 19.0048, lng: 72.8426 } }, place_id: "tata", types: ["hospital"], distance: 2.1, categories: ["cancer", "icu"], phone: "+912224177000" },
+  { name: "AIIMS Blood Bank", vicinity: "Ansari Nagar, New Delhi", rating: 4.3, user_ratings_total: 8600, opening_hours: { open_now: true }, geometry: { location: { lat: 28.5672, lng: 77.2100 } }, place_id: "aiims", types: ["hospital"], distance: 3.5, categories: ["blood_bank", "icu"], phone: "+911126588500" },
+  { name: "Rajiv Gandhi Cancer Institute", vicinity: "Sector 5, Rohini, Delhi", rating: 4.4, user_ratings_total: 6200, opening_hours: { open_now: true }, geometry: { location: { lat: 28.7340, lng: 77.1130 } }, place_id: "rgci", types: ["hospital"], distance: 5.8, categories: ["cancer", "icu"], phone: "+911147022222" },
+  { name: "Kidwai Memorial Institute of Oncology", vicinity: "Dr MH Marigowda Road, Bengaluru", rating: 4.1, user_ratings_total: 4300, opening_hours: { open_now: false }, geometry: { location: { lat: 12.9375, lng: 77.5741 } }, place_id: "kidwai", types: ["hospital"], distance: 7.2, categories: ["cancer"], phone: "+918026094000" },
+  { name: "Adyar Cancer Institute", vicinity: "East Canal Bank Road, Chennai", rating: 4.6, user_ratings_total: 5100, opening_hours: { open_now: true }, geometry: { location: { lat: 13.0067, lng: 80.2573 } }, place_id: "adyar", types: ["hospital"], distance: 4.0, categories: ["cancer", "icu"], phone: "+914422350131" },
+  { name: "CMC Vellore Blood Bank", vicinity: "Ida Scudder Road, Vellore", rating: 4.7, user_ratings_total: 9800, opening_hours: { open_now: true }, geometry: { location: { lat: 12.9249, lng: 79.1326 } }, place_id: "cmc", types: ["hospital"], distance: 12.5, categories: ["blood_bank", "icu"], phone: "+914162281000" },
+  { name: "MNJ Institute of Oncology", vicinity: "Red Hills, Hyderabad", rating: 4.0, user_ratings_total: 3200, opening_hours: { open_now: true }, geometry: { location: { lat: 17.3920, lng: 78.4870 } }, place_id: "mnj", types: ["hospital"], distance: 6.3, categories: ["cancer", "blood_bank"], phone: "+914023318422" },
+  { name: "Gujarat Cancer Research Institute", vicinity: "Civil Hospital Campus, Ahmedabad", rating: 4.2, user_ratings_total: 2800, opening_hours: { open_now: false }, geometry: { location: { lat: 23.0605, lng: 72.5870 } }, place_id: "gcri", types: ["hospital"], distance: 8.1, categories: ["cancer", "icu"], phone: "+917922681451" },
+  { name: "Red Cross Blood Bank Mumbai", vicinity: "141 Shahid Bhagat Singh Rd, Fort, Mumbai", rating: 4.4, user_ratings_total: 1500, opening_hours: { open_now: true }, geometry: { location: { lat: 18.9388, lng: 72.8354 } }, place_id: "redx", types: ["hospital"], distance: 1.8, categories: ["blood_bank"], phone: "+912222664621" },
 ];
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -48,9 +54,10 @@ export default function HospitalFinderPage() {
   const [search, setSearch] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
-  const [hospitals, setHospitals] = useState<HospitalResult[]>([]);
+  const [hospitals, setHospitals] = useState<Place[]>([]);
   const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState<"all" | "open">("all");
+  const [openOnly, setOpenOnly] = useState(false);
+  const [category, setCategory] = useState<"all" | Category>("all");
 
   useEffect(() => { loadHospitals(); }, []);
 
@@ -80,8 +87,16 @@ export default function HospitalFinderPage() {
   };
 
   const filtered = hospitals
-    .filter(h => filter === "all" || h.opening_hours?.open_now)
+    .filter(h => !openOnly || h.opening_hours?.open_now)
+    .filter(h => category === "all" || h.categories.includes(category))
     .filter(h => !search || h.name.toLowerCase().includes(search.toLowerCase()) || h.vicinity.toLowerCase().includes(search.toLowerCase()));
+
+  const CAT_LABELS: { key: "all" | Category; label: string; icon: any }[] = [
+    { key: "all", label: "All", icon: Hospital },
+    { key: "cancer", label: "Cancer", icon: Heart },
+    { key: "blood_bank", label: "Blood bank", icon: Droplets },
+    { key: "icu", label: "ICU", icon: Activity },
+  ];
 
   return (
     <PageTransition className="max-w-3xl mx-auto space-y-6">
@@ -108,9 +123,34 @@ export default function HospitalFinderPage() {
             <Navigation className="w-4 h-4 mr-2" /> Locate Me
           </GlowButton>
         </div>
-        <div className="flex gap-2">
-          <GlowButton variant={filter === "all" ? "primary" : "secondary"} size="sm" onClick={() => setFilter("all")}>All</GlowButton>
-          <GlowButton variant={filter === "open" ? "primary" : "secondary"} size="sm" onClick={() => setFilter("open")}>Open Now</GlowButton>
+        <div className="flex gap-2 flex-wrap">
+          {CAT_LABELS.map((c) => {
+            const Icon = c.icon;
+            const active = category === c.key;
+            return (
+              <button
+                key={c.key}
+                onClick={() => setCategory(c.key)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                  active
+                    ? "bg-primary/15 border-primary/40 text-primary"
+                    : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-[hsl(var(--glass)_/_0.05)]"
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5" /> {c.label}
+              </button>
+            );
+          })}
+          <button
+            onClick={() => setOpenOnly((v) => !v)}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ml-auto ${
+              openOnly
+                ? "bg-success/15 border-success/40 text-success"
+                : "border-border/50 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <Clock className="w-3.5 h-3.5" /> Open now
+          </button>
         </div>
       </GlassCard>
 
@@ -152,9 +192,18 @@ export default function HospitalFinderPage() {
                       </div>
                     </div>
                   </div>
-                  <GlowButton variant="secondary" size="sm" onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${h.geometry.location.lat},${h.geometry.location.lng}`, '_blank')}>
-                    <ExternalLink className="w-4 h-4 mr-1" /> Map
-                  </GlowButton>
+                  <div className="flex flex-col gap-1.5 shrink-0">
+                    {h.phone && (
+                      <a href={`tel:${h.phone}`}>
+                        <GlowButton variant="primary" size="sm">
+                          <Phone className="w-4 h-4 mr-1" /> Call
+                        </GlowButton>
+                      </a>
+                    )}
+                    <GlowButton variant="secondary" size="sm" onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${h.geometry.location.lat},${h.geometry.location.lng}`, '_blank')}>
+                      <Navigation className="w-4 h-4 mr-1" /> Directions
+                    </GlowButton>
+                  </div>
                 </div>
               </GlassCard>
             </motion.div>

@@ -1,7 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital, Bot, Users, UserPlus, Activity, FileText, Siren, Search } from "lucide-react";
+import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital, Bot, Users, UserPlus, Activity, FileText, Siren, Search, HeartHandshake } from "lucide-react";
 import NotificationBell from "@/components/NotificationBell";
+import EmergencyBanner from "@/components/EmergencyBanner";
 import { useState } from "react";
 import { useAppointmentReminders } from "@/hooks/useAppointmentReminders";
 import AnimatedBackground from "@/components/premium/AnimatedBackground";
@@ -16,6 +17,7 @@ const NAV_ITEMS = [
   { path: "/treatment-timeline", label: "Timeline", icon: Activity, role: "patient" as const },
   { path: "/medical-documents", label: "Documents", icon: FileText, role: "patient" as const },
   { path: "/caregivers", label: "Caregivers", icon: Users, role: "patient" as const },
+  { path: "/caregiver", label: "Caring For", icon: HeartHandshake },
   { path: "/donor-feed", label: "Donor Feed", icon: Droplets, role: "donor" as const },
   { path: "/donor-details", label: "Donor Details", icon: UserPlus, role: "donor" as const },
   { path: "/appointments", label: "Appointments", icon: Calendar },
@@ -63,6 +65,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background relative">
       <AnimatedBackground variant="subtle" />
+      <EmergencyBanner />
 
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border/50">

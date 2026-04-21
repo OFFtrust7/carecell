@@ -114,11 +114,17 @@ export default function CaregiversPage() {
                       }>{l.status}</Badge>
                     </div>
                     {l.status === "pending" && l.invite_code && (
-                      <button onClick={() => copyCode(l.invite_code)}
-                        className="mt-2 inline-flex items-center gap-2 text-xs text-primary hover:underline">
-                        Invite code: <code className="font-mono">{l.invite_code}</code>
-                        {copied === l.invite_code ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                      </button>
+                      <div className="mt-2 space-y-1">
+                        <button onClick={() => copyCode(l.invite_code)}
+                          className="inline-flex items-center gap-2 text-xs text-primary hover:underline">
+                          Code: <code className="font-mono">{l.invite_code}</code>
+                          {copied === l.invite_code ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                        </button>
+                        <button onClick={() => copyCode(`${window.location.origin}/accept-invite?code=${l.invite_code}`)}
+                          className="block text-xs text-muted-foreground hover:text-foreground">
+                          Copy invite link
+                        </button>
+                      </div>
                     )}
                   </div>
                   {l.status !== "revoked" && (
