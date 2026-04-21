@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { AlertTriangle, MapPin, Phone, Siren, CheckCircle2, X } from "lucide-react";
+import { AlertTriangle, MapPin, Phone, Siren, CheckCircle2, X, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
 import PageTransition from "@/components/premium/PageTransition";
@@ -20,21 +20,45 @@ export default function EmergencyPage() {
   const { user, profile } = useAuth();
   const [active, setActive] = useState<any[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({
-    blood_group: profile?.blood_group || "",
+    blood_group: "",
     reason: "",
     hospital_name: "",
-    city: profile?.city || "",
-    contact_phone: profile?.phone || "",
+    city: "",
+    contact_phone: "",
     latitude: null as number | null,
     longitude: null as number | null,
   });
 
-  useEffect(() => { load(); const i = setInterval(load, 20000); return () => clearInterval(i); }, []);
+  // Autofill from profile when it loads
+  useEffect(() => {
+    if (profile) {
+      setForm((f) => ({
+        ...f,
+        blood_group: f.blood_group || profile.blood_group || "",
+        city: f.city || profile.city || "",
+        contact_phone: f.contact_phone || profile.phone || "",
+        latitude: f.latitude ?? profile.latitude,
+        longitude: f.longitude ?? profile.longitude,
+        hospital_name: f.hospital_name || profile.hospital_name || "",
+      }));
+    }
+  }, [profile]);
+
+  // Realtime subscribe + initial load
+  useEffect(() => {
+    load();
+    const channel = supabase
+      .channel("emergency-feed")
+      .on("postgres_changes", { event: "*", schema: "public", table: "emergency_requests" }, () => load())
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, []);
 
   const load = async () => {
     const { data } = await supabase
-      .from("emergency_requests" as any)
+      .from("emergency_requests")
       .select("*")
       .eq("status", "active")
       .order("created_at", { ascending: false })
@@ -42,24 +66,54 @@ export default function EmergencyPage() {
     setActive((data as any[]) || []);
   };
 
-  const captureLocation = () => {
-    if (!navigator.geolocation) return toast.error("Location not available");
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setForm((f) => ({ ...f, latitude: pos.coords.latitude, longitude: pos.coords.longitude }));
-        toast.success("Location captured");
-      },
-      () => toast.error("Could not get location")
-    );
+  const captureLocation = () =>
+    new Promise<{ lat: number; lng: number } | null>((resolve) => {
+      if (!navigator.geolocation) return resolve(null);
+      navigator.geolocation.getCurrentPosition(
+        (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        () => resolve(null),
+        { timeout: 4000 }
+      );
+    });
+
+  // ONE-TAP SOS — autofills from profile + best-effort live location, broadcasts in <3s
+  const oneTapSOS = async () => {
+    if (!user || !profile) return;
+    if (!profile.blood_group || !profile.phone) {
+      toast.error("Add blood group + phone to your profile first");
+      setShowForm(true);
+      return;
+    }
+    setSubmitting(true);
+    const loc = await Promise.race([
+      captureLocation(),
+      new Promise<null>((r) => setTimeout(() => r(null), 2500)),
+    ]);
+    const payload = {
+      patient_id: user.id,
+      patient_name: profile.full_name || "Patient",
+      blood_group: profile.blood_group,
+      reason: "Urgent — needs blood now",
+      city: profile.city,
+      hospital_name: profile.hospital_name,
+      contact_phone: profile.phone,
+      latitude: loc?.lat ?? profile.latitude ?? null,
+      longitude: loc?.lng ?? profile.longitude ?? null,
+    };
+    const { error } = await supabase.from("emergency_requests").insert(payload as any);
+    setSubmitting(false);
+    if (error) return toast.error(error.message);
+    toast.success("🚨 SOS broadcast — donors are being notified");
+    load();
   };
 
-  const sendSOS = async () => {
+  const sendDetailedSOS = async () => {
     if (!user || !profile) return;
     if (!form.blood_group || !form.contact_phone || !form.reason) {
       return toast.error("Blood group, reason and phone are required");
     }
     setSubmitting(true);
-    const { error } = await supabase.from("emergency_requests" as any).insert({
+    const { error } = await supabase.from("emergency_requests").insert({
       patient_id: user.id,
       patient_name: profile.full_name || "Patient",
       ...form,
@@ -68,11 +122,12 @@ export default function EmergencyPage() {
     if (error) return toast.error(error.message);
     toast.success("🚨 SOS broadcast — donors are being notified");
     setForm({ ...form, reason: "" });
+    setShowForm(false);
     load();
   };
 
   const resolve = async (id: string) => {
-    await supabase.from("emergency_requests" as any)
+    await supabase.from("emergency_requests")
       .update({ status: "resolved", resolved_at: new Date().toISOString() } as any)
       .eq("id", id);
     toast.success("Marked as resolved");
@@ -83,7 +138,7 @@ export default function EmergencyPage() {
 
   return (
     <PageTransition className="space-y-6">
-      <GradientHeading subtitle="Fast-action mode for critical situations. Reaches all available donors instantly.">
+      <GradientHeading subtitle="Live broadcast to nearby eligible donors. Use only for time-critical needs.">
         Emergency Mode
       </GradientHeading>
 
@@ -95,47 +150,67 @@ export default function EmergencyPage() {
               <Siren className="w-6 h-6 text-critical" />
             </motion.div>
             <div>
-              <h2 className="font-display text-xl text-foreground">Send SOS</h2>
-              <p className="text-xs text-muted-foreground">Use only for critical, time-sensitive needs</p>
+              <h2 className="font-display text-xl text-foreground">One-tap SOS</h2>
+              <p className="text-xs text-muted-foreground">Autofills from your profile and broadcasts instantly</p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium mb-2 block">Blood Group *</label>
-              <Select value={form.blood_group} onValueChange={(v) => setForm({ ...form, blood_group: v })}>
-                <SelectTrigger className="glass border-border rounded-xl"><SelectValue placeholder="Select" /></SelectTrigger>
-                <SelectContent className="glass-strong border-border/50">
-                  {BLOOD_GROUPS.map((bg) => <SelectItem key={bg} value={bg}>{bg}</SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-            <PremiumInput label="Contact Phone *" value={form.contact_phone}
-              onChange={(e) => setForm({ ...form, contact_phone: e.target.value })} />
-          </div>
-
-          <PremiumInput label="Reason / what's happening *" value={form.reason}
-            onChange={(e) => setForm({ ...form, reason: e.target.value })}
-            placeholder="e.g. accident — needs 2 units urgently" />
-
-          <div className="grid md:grid-cols-2 gap-4">
-            <PremiumInput label="Hospital" value={form.hospital_name}
-              onChange={(e) => setForm({ ...form, hospital_name: e.target.value })} />
-            <PremiumInput label="City" value={form.city}
-              onChange={(e) => setForm({ ...form, city: e.target.value })} />
-          </div>
-
-          <div className="flex gap-2 flex-wrap">
-            <GlowButton variant="secondary" size="sm" onClick={captureLocation}>
-              <MapPin className="w-4 h-4 mr-1" />
-              {form.latitude ? "Location captured ✓" : "Share My Location"}
-            </GlowButton>
-          </div>
-
-          <GlowButton variant="danger" size="lg" onClick={sendSOS} disabled={submitting} className="w-full">
-            <AlertTriangle className="w-5 h-5 mr-2" />
+          <GlowButton variant="danger" size="lg" onClick={oneTapSOS} disabled={submitting} className="w-full">
+            <Zap className="w-5 h-5 mr-2" />
             {submitting ? "Broadcasting..." : "🚨 SEND SOS NOW"}
           </GlowButton>
+
+          <button
+            onClick={() => setShowForm((s) => !s)}
+            className="text-xs text-muted-foreground hover:text-foreground"
+          >
+            {showForm ? "Hide details" : "Add details (optional)"}
+          </button>
+
+          {showForm && (
+            <div className="space-y-4 pt-2 border-t border-border/30">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Blood Group *</label>
+                  <Select value={form.blood_group} onValueChange={(v) => setForm({ ...form, blood_group: v })}>
+                    <SelectTrigger className="glass border-border rounded-xl"><SelectValue placeholder="Select" /></SelectTrigger>
+                    <SelectContent className="glass-strong border-border/50">
+                      {BLOOD_GROUPS.map((bg) => <SelectItem key={bg} value={bg}>{bg}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <PremiumInput label="Contact Phone *" value={form.contact_phone}
+                  onChange={(e) => setForm({ ...form, contact_phone: e.target.value })} />
+              </div>
+
+              <PremiumInput label="What's happening? *" value={form.reason}
+                onChange={(e) => setForm({ ...form, reason: e.target.value })}
+                placeholder="e.g. accident — needs 2 units urgently" />
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <PremiumInput label="Hospital" value={form.hospital_name}
+                  onChange={(e) => setForm({ ...form, hospital_name: e.target.value })} />
+                <PremiumInput label="City" value={form.city}
+                  onChange={(e) => setForm({ ...form, city: e.target.value })} />
+              </div>
+
+              <div className="flex gap-2 flex-wrap">
+                <GlowButton variant="secondary" size="sm" onClick={async () => {
+                  const loc = await captureLocation();
+                  if (loc) { setForm((f) => ({ ...f, latitude: loc.lat, longitude: loc.lng })); toast.success("Location captured"); }
+                  else toast.error("Could not get location");
+                }}>
+                  <MapPin className="w-4 h-4 mr-1" />
+                  {form.latitude ? "Location captured ✓" : "Share My Location"}
+                </GlowButton>
+              </div>
+
+              <GlowButton variant="danger" onClick={sendDetailedSOS} disabled={submitting} className="w-full">
+                <AlertTriangle className="w-5 h-5 mr-2" />
+                {submitting ? "Broadcasting..." : "Broadcast detailed SOS"}
+              </GlowButton>
+            </div>
+          )}
         </GlassCard>
       )}
 
