@@ -578,7 +578,6 @@ export type Database = {
         Row: {
           blood_group: Database["public"]["Enums"]["blood_group"] | null
           city: string | null
-          contact_phone: string | null
           created_at: string | null
           donation_type: Database["public"]["Enums"]["donation_type"] | null
           expires_at: string | null
@@ -590,7 +589,6 @@ export type Database = {
           longitude: number | null
           notes: string | null
           patient_id: string | null
-          patient_name: string | null
           state: string | null
           status: Database["public"]["Enums"]["request_status"] | null
           units_needed: number | null
@@ -600,7 +598,6 @@ export type Database = {
         Insert: {
           blood_group?: Database["public"]["Enums"]["blood_group"] | null
           city?: string | null
-          contact_phone?: never
           created_at?: string | null
           donation_type?: Database["public"]["Enums"]["donation_type"] | null
           expires_at?: string | null
@@ -612,7 +609,6 @@ export type Database = {
           longitude?: number | null
           notes?: string | null
           patient_id?: string | null
-          patient_name?: string | null
           state?: string | null
           status?: Database["public"]["Enums"]["request_status"] | null
           units_needed?: number | null
@@ -622,7 +618,6 @@ export type Database = {
         Update: {
           blood_group?: Database["public"]["Enums"]["blood_group"] | null
           city?: string | null
-          contact_phone?: never
           created_at?: string | null
           donation_type?: Database["public"]["Enums"]["donation_type"] | null
           expires_at?: string | null
@@ -634,7 +629,6 @@ export type Database = {
           longitude?: number | null
           notes?: string | null
           patient_id?: string | null
-          patient_name?: string | null
           state?: string | null
           status?: Database["public"]["Enums"]["request_status"] | null
           units_needed?: number | null
