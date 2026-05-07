@@ -6,66 +6,69 @@
 
 @layer base {
   :root {
-    /* CareCell v2 — Dark luxury base */
-    --background: 240 40% 4%;
-    --foreground: 210 20% 96%;
+    /* CareCell v3 — Ocean Aurora: deep navy + teal/aqua + soft pink */
+    --background: 222 47% 5%;
+    --foreground: 190 30% 96%;
 
-    --card: 240 30% 6%;
-    --card-foreground: 210 20% 96%;
+    --card: 220 40% 8%;
+    --card-foreground: 190 30% 96%;
 
-    --popover: 240 30% 7%;
-    --popover-foreground: 210 20% 96%;
+    --popover: 220 40% 9%;
+    --popover-foreground: 190 30% 96%;
 
-    /* Brand red primary */
-    --primary: 355 82% 56%;
-    --primary-foreground: 0 0% 100%;
+    /* Brand: aqua/teal primary */
+    --primary: 184 95% 52%;
+    --primary-foreground: 220 60% 6%;
 
-    --secondary: 240 22% 10%;
-    --secondary-foreground: 210 15% 85%;
+    --secondary: 220 35% 12%;
+    --secondary-foreground: 190 25% 88%;
 
-    --muted: 240 20% 9%;
-    --muted-foreground: 215 16% 57%;
+    --muted: 220 30% 11%;
+    --muted-foreground: 200 18% 62%;
 
-    /* Mint/cyan accent */
-    --accent: 160 90% 43%;
+    /* Accent: soft pink/magenta aurora */
+    --accent: 328 92% 64%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 78% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 18% 12%;
-    --input: 240 18% 12%;
-    --ring: 355 82% 56%;
+    --border: 215 30% 16%;
+    --input: 215 30% 16%;
+    --ring: 184 95% 52%;
 
     --radius: 0.875rem;
 
-    --sidebar-background: 240 30% 5%;
-    --sidebar-foreground: 210 15% 85%;
-    --sidebar-primary: 355 82% 56%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 22% 10%;
-    --sidebar-accent-foreground: 210 15% 85%;
-    --sidebar-border: 240 18% 12%;
-    --sidebar-ring: 355 82% 56%;
+    --sidebar-background: 222 45% 6%;
+    --sidebar-foreground: 190 25% 88%;
+    --sidebar-primary: 184 95% 52%;
+    --sidebar-primary-foreground: 220 60% 6%;
+    --sidebar-accent: 220 35% 12%;
+    --sidebar-accent-foreground: 190 25% 88%;
+    --sidebar-border: 215 30% 16%;
+    --sidebar-ring: 184 95% 52%;
 
     /* Semantic tokens */
-    --success: 160 84% 39%;
-    --success-foreground: 0 0% 100%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
-    --critical: 355 82% 56%;
+    --success: 160 84% 45%;
+    --success-foreground: 220 60% 6%;
+    --warning: 42 96% 56%;
+    --warning-foreground: 220 60% 6%;
+    --critical: 350 90% 60%;
     --critical-foreground: 0 0% 100%;
-    --urgent: 25 90% 52%;
+    --urgent: 28 95% 58%;
     --urgent-foreground: 0 0% 100%;
 
-    /* Premium glow tokens */
-    --glow-red: 355 82% 56%;
-    --glow-mint: 160 90% 43%;
-    --glow-violet: 263 70% 50%;
+    /* Aurora glow tokens */
+    --glow-red: 350 90% 60%;
+    --glow-mint: 184 95% 52%;
+    --glow-violet: 270 90% 65%;
+    --glow-aqua: 195 100% 55%;
+    --glow-pink: 328 92% 64%;
+    --glow-gold: 45 96% 60%;
 
     /* Glass tokens */
-    --glass: 240 20% 100%;
-    --glass-border: 240 20% 100%;
+    --glass: 195 60% 95%;
+    --glass-border: 195 60% 95%;
   }
 }
 
