@@ -25,7 +25,6 @@ const INDIAN_CITIES = [
   { name: "Jaipur", lat: 26.9124, lng: 75.7873 }, { name: "Lucknow", lat: 26.8467, lng: 80.9462 },
 ];
 
-const SAMPLE_HOSPITALS: HospitalResult[] = [
 type Category = "cancer" | "blood_bank" | "icu";
 
 interface Place extends HospitalResult { categories: Category[]; phone?: string; }
