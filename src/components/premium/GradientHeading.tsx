@@ -29,7 +29,7 @@ export default function GradientHeading({
           Tag === "h2" && "text-2xl sm:text-3xl",
           Tag === "h3" && "text-xl sm:text-2xl",
           Tag === "h4" && "text-lg",
-          gradient ? "text-gradient" : "text-foreground",
+          gradient ? "text-aurora" : "text-foreground",
           className
         )}
       >
