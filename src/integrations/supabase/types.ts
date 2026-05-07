@@ -245,13 +245,6 @@ export type Database = {
             referencedRelation: "blood_requests"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "donor_responses_request_id_fkey"
-            columns: ["request_id"]
-            isOneToOne: false
-            referencedRelation: "blood_requests_safe"
-            referencedColumns: ["id"]
-          },
         ]
       }
       emergency_requests: {
@@ -521,13 +514,6 @@ export type Database = {
             referencedRelation: "blood_requests"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "request_status_history_request_id_fkey"
-            columns: ["request_id"]
-            isOneToOne: false
-            referencedRelation: "blood_requests_safe"
-            referencedColumns: ["id"]
-          },
         ]
       }
       treatment_events: {
@@ -574,69 +560,7 @@ export type Database = {
       }
     }
     Views: {
-      blood_requests_safe: {
-        Row: {
-          blood_group: Database["public"]["Enums"]["blood_group"] | null
-          city: string | null
-          created_at: string | null
-          donation_type: Database["public"]["Enums"]["donation_type"] | null
-          expires_at: string | null
-          fulfilled_at: string | null
-          hospital_address: string | null
-          hospital_name: string | null
-          id: string | null
-          latitude: number | null
-          longitude: number | null
-          notes: string | null
-          patient_id: string | null
-          state: string | null
-          status: Database["public"]["Enums"]["request_status"] | null
-          units_needed: number | null
-          updated_at: string | null
-          urgency: Database["public"]["Enums"]["request_urgency"] | null
-        }
-        Insert: {
-          blood_group?: Database["public"]["Enums"]["blood_group"] | null
-          city?: string | null
-          created_at?: string | null
-          donation_type?: Database["public"]["Enums"]["donation_type"] | null
-          expires_at?: string | null
-          fulfilled_at?: string | null
-          hospital_address?: string | null
-          hospital_name?: string | null
-          id?: string | null
-          latitude?: number | null
-          longitude?: number | null
-          notes?: string | null
-          patient_id?: string | null
-          state?: string | null
-          status?: Database["public"]["Enums"]["request_status"] | null
-          units_needed?: number | null
-          updated_at?: string | null
-          urgency?: Database["public"]["Enums"]["request_urgency"] | null
-        }
-        Update: {
-          blood_group?: Database["public"]["Enums"]["blood_group"] | null
-          city?: string | null
-          created_at?: string | null
-          donation_type?: Database["public"]["Enums"]["donation_type"] | null
-          expires_at?: string | null
-          fulfilled_at?: string | null
-          hospital_address?: string | null
-          hospital_name?: string | null
-          id?: string | null
-          latitude?: number | null
-          longitude?: number | null
-          notes?: string | null
-          patient_id?: string | null
-          state?: string | null
-          status?: Database["public"]["Enums"]["request_status"] | null
-          units_needed?: number | null
-          updated_at?: string | null
-          urgency?: Database["public"]["Enums"]["request_urgency"] | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       accept_caregiver_invite: {
@@ -675,6 +599,29 @@ export type Database = {
       is_active_caregiver_with_edit: {
         Args: { p_caregiver: string; p_patient: string }
         Returns: boolean
+      }
+      list_active_blood_requests: {
+        Args: never
+        Returns: {
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city: string
+          created_at: string
+          donation_type: Database["public"]["Enums"]["donation_type"]
+          expires_at: string
+          fulfilled_at: string
+          hospital_address: string
+          hospital_name: string
+          id: string
+          latitude: number
+          longitude: number
+          notes: string
+          patient_id: string
+          state: string
+          status: Database["public"]["Enums"]["request_status"]
+          units_needed: number
+          updated_at: string
+          urgency: Database["public"]["Enums"]["request_urgency"]
+        }[]
       }
       match_donors: {
         Args: { p_blood_group: string; p_city?: string; p_limit?: number }
