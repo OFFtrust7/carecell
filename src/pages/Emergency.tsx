@@ -57,13 +57,18 @@ export default function EmergencyPage() {
   }, []);
 
   const load = async () => {
-    const { data } = await supabase
-      .from("emergency_requests")
-      .select("*")
-      .eq("status", "active")
-      .order("created_at", { ascending: false })
-      .limit(20);
+    const { data } = await supabase.rpc("list_active_emergencies" as any);
     setActive((data as any[]) || []);
+  };
+
+  const callEmergency = async (id: string) => {
+    const { data, error } = await supabase.rpc("get_emergency_contact" as any, { p_id: id });
+    const row = (data as any[])?.[0];
+    if (error || !row?.contact_phone) {
+      toast.error("Contact not available — only matching donors and the patient can call");
+      return;
+    }
+    window.location.href = `tel:${row.contact_phone}`;
   };
 
   const captureLocation = () =>
