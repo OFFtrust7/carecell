@@ -3,8 +3,10 @@ import { useAuth } from "@/hooks/useAuth";
 import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital, Bot, Users, UserPlus, Activity, FileText, Siren, Search, HeartHandshake } from "lucide-react";
 import NotificationBell from "@/components/NotificationBell";
 import EmergencyBanner from "@/components/EmergencyBanner";
+import ThemeVariantToggle from "@/components/ThemeVariantToggle";
 import { useState } from "react";
 import { useAppointmentReminders } from "@/hooks/useAppointmentReminders";
+import { useThemeVariant } from "@/hooks/useThemeVariant";
 import AnimatedBackground from "@/components/premium/AnimatedBackground";
 import { motion, AnimatePresence } from "framer-motion";
 
