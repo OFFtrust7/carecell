@@ -206,8 +206,19 @@ export default function HospitalFinderPage() {
             );
           })}
           <button
-            onClick={() => setOpenOnly((v) => !v)}
+            onClick={() => { setLive((v) => { const n = !v; setTimeout(() => loadHospitals(), 0); return n; }); }}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ml-auto ${
+              live
+                ? "bg-primary/15 border-primary/40 text-primary"
+                : "border-border/50 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <span className={`w-2 h-2 rounded-full ${live ? "bg-primary animate-pulse" : "bg-muted-foreground/40"}`} />
+            {live ? "Live (OSM)" : "Curated"}
+          </button>
+          <button
+            onClick={() => setOpenOnly((v) => !v)}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
               openOnly
                 ? "bg-success/15 border-success/40 text-success"
                 : "border-border/50 text-muted-foreground hover:text-foreground"
