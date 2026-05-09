@@ -3,10 +3,24 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Siren, Phone, X, Clock } from "lucide-react";
 import { useEmergencyBroadcast } from "@/hooks/useEmergencyBroadcast";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export default function EmergencyBanner() {
   const { latest, dismiss } = useEmergencyBroadcast();
   const [secondsLeft, setSecondsLeft] = useState(60);
+
+  const callPatient = async () => {
+    if (!latest) return;
+    const { data, error } = await supabase.rpc("get_emergency_contact" as any, { p_id: latest.id });
+    const row = (data as any[])?.[0];
+    if (error || !row?.contact_phone) {
+      toast.error("Contact not available");
+      return;
+    }
+    window.location.href = `tel:${row.contact_phone}`;
+  };
+
 
   useEffect(() => {
     if (!latest) return;
