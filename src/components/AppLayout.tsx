@@ -123,6 +123,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
             {/* Mobile controls */}
             <div className="flex items-center gap-1 lg:hidden">
+              <ThemeVariantToggle />
               <NotificationBell />
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
