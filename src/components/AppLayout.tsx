@@ -110,6 +110,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 );
               })}
               <div className="ml-2 flex items-center gap-1">
+                <ThemeVariantToggle />
                 <NotificationBell />
                 <button
                   onClick={handleSignOut}
