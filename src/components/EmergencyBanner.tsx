@@ -74,13 +74,26 @@ export default function EmergencyBanner() {
                 </p>
               </div>
               <div className="flex items-center gap-1 px-2">
-                <a
-                  href={`tel:${latest.contact_phone}`}
+                <p className="font-semibold text-sm text-foreground truncate">
+                    {latest.blood_group} needed urgently
+                  </p>
+                  <span className="text-[10px] inline-flex items-center gap-1 text-critical font-mono">
+                    <Clock className="w-3 h-3" /> {secondsLeft}s
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground truncate">
+                  {latest.reason}
+                  {latest.city && ` • ${latest.city}`}
+                </p>
+              </div>
+              <div className="flex items-center gap-1 px-2">
+                <button
+                  onClick={callPatient}
                   className="p-2 rounded-lg bg-critical text-critical-foreground hover:opacity-90"
                   aria-label="Call patient"
                 >
                   <Phone className="w-4 h-4" />
-                </a>
+                </button>
                 <Link
                   to="/emergency"
                   className="text-xs px-2 py-2 text-foreground hover:text-primary"
