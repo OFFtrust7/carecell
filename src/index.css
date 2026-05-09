@@ -315,3 +315,22 @@
     }
   }
 }
+
+/* === Subtle Aurora variant === */
+.theme-subtle .aurora-bg::before,
+.theme-subtle .text-aurora,
+.theme-subtle .border-aurora::before {
+  animation-duration: 30s;
+}
+.theme-subtle .noise-overlay::after { opacity: 0.008; }
+.theme-subtle .glow-red,
+.theme-subtle .glow-mint { box-shadow: 0 0 14px hsl(var(--glow-red) / 0.08); }
+.theme-subtle [class*="shadow-["] { box-shadow: none !important; }
+.theme-subtle .animate-pulse-glow,
+.theme-subtle .animate-spin-slow,
+.theme-subtle .animate-glow-shift,
+.theme-subtle .animate-shimmer-x { animation: none !important; }
+.theme-subtle .glass-strong { backdrop-filter: blur(8px); }
+@media (prefers-reduced-motion: reduce) {
+  .theme-subtle * { animation-duration: 0.001ms !important; }
+}
