@@ -62,19 +62,6 @@ export default function EmergencyBanner() {
               <div className="flex-1 px-3 py-2.5 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <p className="font-semibold text-sm text-foreground truncate">
-                    {latest.blood_group} needed — {latest.patient_name}
-                  </p>
-                  <span className="text-[10px] inline-flex items-center gap-1 text-critical font-mono">
-                    <Clock className="w-3 h-3" /> {secondsLeft}s
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground truncate">
-                  {latest.reason}
-                  {latest.city && ` • ${latest.city}`}
-                </p>
-              </div>
-              <div className="flex items-center gap-1 px-2">
-                <p className="font-semibold text-sm text-foreground truncate">
                     {latest.blood_group} needed urgently
                   </p>
                   <span className="text-[10px] inline-flex items-center gap-1 text-critical font-mono">
