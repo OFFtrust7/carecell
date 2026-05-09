@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
+import { ThemeVariantProvider } from "@/hooks/useThemeVariant";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import RoleProtectedRoute from "@/components/RoleProtectedRoute";
 import AppLayout from "@/components/AppLayout";
@@ -37,8 +38,9 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
+      <ThemeVariantProvider>
+        <TooltipProvider>
+          <Toaster />
         <Sonner />
         <BrowserRouter>
           <Routes>
@@ -75,7 +77,8 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-      </TooltipProvider>
+        </TooltipProvider>
+      </ThemeVariantProvider>
     </AuthProvider>
   </QueryClientProvider>
 );

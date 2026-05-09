@@ -57,13 +57,78 @@ export default function HospitalFinderPage() {
   const [loading, setLoading] = useState(false);
   const [openOnly, setOpenOnly] = useState(false);
   const [category, setCategory] = useState<"all" | Category>("all");
+  const [live, setLive] = useState(true);
 
   useEffect(() => { loadHospitals(); }, []);
 
-  const loadHospitals = (cityLat?: number, cityLng?: number) => {
+  const fetchLiveHospitals = async (lat: number, lng: number): Promise<Place[]> => {
+    // Overpass API — live OSM data, no API key needed
+    const radius = 15000; // 15km
+    const query = `
+      [out:json][timeout:20];
+      (
+        node["amenity"="hospital"](around:${radius},${lat},${lng});
+        way["amenity"="hospital"](around:${radius},${lat},${lng});
+        node["healthcare"="blood_donation"](around:${radius},${lat},${lng});
+        node["healthcare"="blood_bank"](around:${radius},${lat},${lng});
+      );
+      out center tags 60;
+    `;
+    const res = await fetch("https://overpass-api.de/api/interpreter", {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: query,
+    });
+    if (!res.ok) throw new Error("Overpass error");
+    const json = await res.json();
+    const items: Place[] = (json.elements || []).map((el: any) => {
+      const t = el.tags || {};
+      const plat = el.lat ?? el.center?.lat;
+      const plng = el.lon ?? el.center?.lon;
+      if (!plat || !plng) return null;
+      const name = t.name || t["name:en"] || "Unnamed facility";
+      const cats: Category[] = [];
+      const haystack = `${name} ${t.healthcare || ""} ${t["healthcare:speciality"] || ""} ${t.description || ""}`.toLowerCase();
+      if (t.healthcare === "blood_donation" || t.healthcare === "blood_bank" || haystack.includes("blood")) cats.push("blood_bank");
+      if (haystack.includes("cancer") || haystack.includes("oncology") || haystack.includes("tumour") || haystack.includes("tumor")) cats.push("cancer");
+      if (t.emergency === "yes" || haystack.includes("icu") || haystack.includes("intensive")) cats.push("icu");
+      if (cats.length === 0) cats.push("icu");
+      const vicinity = [t["addr:street"], t["addr:suburb"] || t["addr:city"], t["addr:state"]].filter(Boolean).join(", ") || "Address unavailable";
+      const open = t.opening_hours === "24/7" ? true : undefined;
+      return {
+        place_id: `osm-${el.type}-${el.id}`,
+        name,
+        vicinity,
+        rating: undefined,
+        user_ratings_total: undefined,
+        opening_hours: open === undefined ? undefined : { open_now: open },
+        geometry: { location: { lat: plat, lng: plng } },
+        types: ["hospital"],
+        distance: parseFloat(haversineDistance(lat, lng, plat, plng).toFixed(1)),
+        categories: cats,
+        phone: t.phone || t["contact:phone"],
+      } as Place;
+    }).filter(Boolean) as Place[];
+    return items.sort((a, b) => (a.distance || 0) - (b.distance || 0));
+  };
+
+  const loadHospitals = async (cityLat?: number, cityLng?: number) => {
     setLoading(true);
     const refLat = cityLat || userLocation?.lat || 19.076;
     const refLng = cityLng || userLocation?.lng || 72.8777;
+    try {
+      if (live) {
+        const items = await fetchLiveHospitals(refLat, refLng);
+        if (items.length > 0) {
+          setHospitals(items);
+          setLoading(false);
+          return;
+        }
+        toast.info("No live hospitals nearby — showing curated list");
+      }
+    } catch {
+      toast.error("Live data unavailable — showing curated list");
+    }
     const results = SAMPLE_HOSPITALS.map(h => ({
       ...h, distance: parseFloat(haversineDistance(refLat, refLng, h.geometry.location.lat, h.geometry.location.lng).toFixed(1)),
     })).sort((a, b) => (a.distance || 0) - (b.distance || 0));
@@ -141,8 +206,19 @@ export default function HospitalFinderPage() {
             );
           })}
           <button
-            onClick={() => setOpenOnly((v) => !v)}
+            onClick={() => { setLive((v) => { const n = !v; setTimeout(() => loadHospitals(), 0); return n; }); }}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ml-auto ${
+              live
+                ? "bg-primary/15 border-primary/40 text-primary"
+                : "border-border/50 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <span className={`w-2 h-2 rounded-full ${live ? "bg-primary animate-pulse" : "bg-muted-foreground/40"}`} />
+            {live ? "Live (OSM)" : "Curated"}
+          </button>
+          <button
+            onClick={() => setOpenOnly((v) => !v)}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
               openOnly
                 ? "bg-success/15 border-success/40 text-success"
                 : "border-border/50 text-muted-foreground hover:text-foreground"

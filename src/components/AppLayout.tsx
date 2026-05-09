@@ -3,8 +3,10 @@ import { useAuth } from "@/hooks/useAuth";
 import { Heart, Home, PlusCircle, Droplets, CreditCard, User, LogOut, Menu, X, Calendar, Hospital, Bot, Users, UserPlus, Activity, FileText, Siren, Search, HeartHandshake } from "lucide-react";
 import NotificationBell from "@/components/NotificationBell";
 import EmergencyBanner from "@/components/EmergencyBanner";
+import ThemeVariantToggle from "@/components/ThemeVariantToggle";
 import { useState } from "react";
 import { useAppointmentReminders } from "@/hooks/useAppointmentReminders";
+import { useThemeVariant } from "@/hooks/useThemeVariant";
 import AnimatedBackground from "@/components/premium/AnimatedBackground";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -49,6 +51,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { variant } = useThemeVariant();
   useAppointmentReminders();
 
   const filteredNav = NAV_ITEMS.filter(
@@ -64,7 +67,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background relative">
-      <AnimatedBackground variant="subtle" />
+      <AnimatedBackground variant={variant === "subtle" ? "subtle" : "default"} />
       <EmergencyBanner />
 
       {/* Header */}
@@ -107,6 +110,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 );
               })}
               <div className="ml-2 flex items-center gap-1">
+                <ThemeVariantToggle />
                 <NotificationBell />
                 <button
                   onClick={handleSignOut}
@@ -119,6 +123,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
             {/* Mobile controls */}
             <div className="flex items-center gap-1 lg:hidden">
+              <ThemeVariantToggle />
               <NotificationBell />
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
