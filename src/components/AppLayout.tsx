@@ -67,7 +67,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background relative">
-      <AnimatedBackground variant="subtle" />
+      <AnimatedBackground variant={variant === "subtle" ? "subtle" : "default"} />
       <EmergencyBanner />
 
       {/* Header */}
