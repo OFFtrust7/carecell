@@ -3,10 +3,24 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Siren, Phone, X, Clock } from "lucide-react";
 import { useEmergencyBroadcast } from "@/hooks/useEmergencyBroadcast";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export default function EmergencyBanner() {
   const { latest, dismiss } = useEmergencyBroadcast();
   const [secondsLeft, setSecondsLeft] = useState(60);
+
+  const callPatient = async () => {
+    if (!latest) return;
+    const { data, error } = await supabase.rpc("get_emergency_contact" as any, { p_id: latest.id });
+    const row = (data as any[])?.[0];
+    if (error || !row?.contact_phone) {
+      toast.error("Contact not available");
+      return;
+    }
+    window.location.href = `tel:${row.contact_phone}`;
+  };
+
 
   useEffect(() => {
     if (!latest) return;
@@ -48,7 +62,7 @@ export default function EmergencyBanner() {
               <div className="flex-1 px-3 py-2.5 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <p className="font-semibold text-sm text-foreground truncate">
-                    {latest.blood_group} needed — {latest.patient_name}
+                    {latest.blood_group} needed urgently
                   </p>
                   <span className="text-[10px] inline-flex items-center gap-1 text-critical font-mono">
                     <Clock className="w-3 h-3" /> {secondsLeft}s
@@ -60,13 +74,13 @@ export default function EmergencyBanner() {
                 </p>
               </div>
               <div className="flex items-center gap-1 px-2">
-                <a
-                  href={`tel:${latest.contact_phone}`}
+                <button
+                  onClick={callPatient}
                   className="p-2 rounded-lg bg-critical text-critical-foreground hover:opacity-90"
                   aria-label="Call patient"
                 >
                   <Phone className="w-4 h-4" />
-                </a>
+                </button>
                 <Link
                   to="/emergency"
                   className="text-xs px-2 py-2 text-foreground hover:text-primary"

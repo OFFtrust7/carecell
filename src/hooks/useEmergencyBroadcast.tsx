@@ -30,14 +30,10 @@ export function useEmergencyBroadcast() {
     if (!profile || profile.role !== "donor" || !profile.blood_group) return;
 
     const load = async () => {
-      const { data } = await supabase
-        .from("emergency_requests")
-        .select("*")
-        .eq("status", "active")
-        .eq("blood_group", profile.blood_group as any)
-        .order("created_at", { ascending: false })
-        .limit(10);
-      const items = (data as any[]) || [];
+      const { data } = await supabase.rpc("list_active_emergencies" as any);
+      const items = ((data as any[]) || []).filter(
+        (r) => r.blood_group === profile.blood_group
+      );
       setActive(items);
       // surface only very recent ones (<30min) as banner
       const cutoff = Date.now() - 30 * 60 * 1000;

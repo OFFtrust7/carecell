@@ -584,6 +584,13 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_emergency_contact: {
+        Args: { p_id: string }
+        Returns: {
+          contact_phone: string
+          patient_name: string
+        }[]
+      }
       get_request_contact_phone: {
         Args: { p_request_id: string }
         Returns: string
@@ -621,6 +628,21 @@ export type Database = {
           units_needed: number
           updated_at: string
           urgency: Database["public"]["Enums"]["request_urgency"]
+        }[]
+      }
+      list_active_emergencies: {
+        Args: never
+        Returns: {
+          blood_group: Database["public"]["Enums"]["blood_group"]
+          city: string
+          created_at: string
+          hospital_name: string
+          id: string
+          latitude: number
+          longitude: number
+          patient_id: string
+          reason: string
+          status: string
         }[]
       }
       match_donors: {
