@@ -51,6 +51,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { variant } = useThemeVariant();
   useAppointmentReminders();
 
   const filteredNav = NAV_ITEMS.filter(
