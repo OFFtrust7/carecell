@@ -238,7 +238,9 @@ export default function EmergencyPage() {
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-medium text-foreground">{sos.patient_name}</p>
+                        <p className="font-medium text-foreground">
+                          {sos.patient_id === user?.id ? (sos.patient_name || "Your SOS") : "Patient needs help"}
+                        </p>
                         <Badge className="bg-critical text-critical-foreground text-[10px]">SOS</Badge>
                       </div>
                       <p className="text-sm text-muted-foreground mt-0.5">{sos.reason}</p>
@@ -249,11 +251,9 @@ export default function EmergencyPage() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <a href={`tel:${sos.contact_phone}`}>
-                      <GlowButton size="sm">
-                        <Phone className="w-4 h-4 mr-1" /> Call
-                      </GlowButton>
-                    </a>
+                    <GlowButton size="sm" onClick={() => callEmergency(sos.id)}>
+                      <Phone className="w-4 h-4 mr-1" /> Call
+                    </GlowButton>
                     {sos.patient_id === user?.id && (
                       <GlowButton variant="secondary" size="sm" onClick={() => resolve(sos.id)}>
                         <X className="w-4 h-4 mr-1" /> Resolve
