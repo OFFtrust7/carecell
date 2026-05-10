@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Heart, Droplets, Users, ArrowRight, Shield, MapPin, Zap, Activity, X, Eye, EyeOff } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Heart, Droplets, Users, ArrowRight, Shield, MapPin, Zap, Activity } from "lucide-react";
 import Scene3D from "@/components/landing/Scene3D";
 import MagneticButton from "@/components/landing/MagneticButton";
 import carecellLogo from "@/assets/carecell-logo.png";
@@ -30,27 +30,10 @@ const navReveal = {
   }),
 };
 
-const modalSpring = {
-  hidden: { opacity: 0, scale: 0.85, y: 20 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 300, damping: 25 },
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.9,
-    y: 20,
-    transition: { duration: 0.2 },
-  },
-};
 
 /* ─── Page ─── */
 export default function LandingPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [showModal, setShowModal] = useState(false);
-  const [modalMode, setModalMode] = useState<"signin" | "signup">("signin");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [is3DVisible, setIs3DVisible] = useState(true);
 
@@ -72,10 +55,13 @@ export default function LandingPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const openModal = useCallback((mode: "signin" | "signup") => {
-    setModalMode(mode);
-    setShowModal(true);
-  }, []);
+  const navigate = useNavigate();
+  const openModal = useCallback(
+    (mode: "signin" | "signup") => {
+      navigate(mode === "signin" ? "/login" : "/register");
+    },
+    [navigate]
+  );
 
   return (
     <div ref={containerRef} className="min-h-screen bg-[#07070f] text-white overflow-x-hidden">
@@ -462,150 +448,6 @@ export default function LandingPage() {
         </footer>
       </div>
 
-      {/* ─── Auth Modal ─── */}
-      <AnimatePresence>
-        {showModal && (
-          <AuthModal
-            mode={modalMode}
-            onClose={() => setShowModal(false)}
-            onSwitch={() => setModalMode(modalMode === "signin" ? "signup" : "signin")}
-          />
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-/* ─── Auth Modal Component ─── */
-function AuthModal({
-  mode,
-  onClose,
-  onSwitch,
-}: {
-  mode: "signin" | "signup";
-  onClose: () => void;
-  onSwitch: () => void;
-}) {
-  const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-      onClick={onClose}
-    >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
-
-      {/* Modal */}
-      <motion.div
-        variants={modalSpring}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-md rounded-3xl border border-white/[0.1] bg-[#0d0d1a]/95 backdrop-blur-2xl p-8 shadow-[0_0_80px_rgba(230,57,70,0.1)]"
-      >
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors"
-        >
-          <X className="w-4 h-4 text-white/50" />
-        </button>
-
-        {/* Header */}
-        <div className="text-center mb-8">
-          <img
-            src={carecellLogo}
-            alt="CareCell"
-            width={48}
-            height={48}
-            className="mx-auto mb-4 drop-shadow-[0_0_20px_rgba(230,57,70,0.4)]"
-          />
-          <h2 className="text-2xl font-display">
-            {mode === "signin" ? "Welcome Back" : "Join CareCell"}
-          </h2>
-          <p className="text-sm text-white/35 mt-1">
-            {mode === "signin"
-              ? "Sign in to your account"
-              : "Create your account to get started"}
-          </p>
-        </div>
-
-        {/* Form */}
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            navigate(mode === "signin" ? "/login" : "/register");
-          }}
-          className="space-y-4"
-        >
-          {mode === "signup" && (
-            <FloatingInput label="Full Name" type="text" />
-          )}
-          <FloatingInput label="Email" type="email" />
-          <div className="relative">
-            <FloatingInput
-              label="Password"
-              type={showPassword ? "text" : "password"}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
-            >
-              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </button>
-          </div>
-
-          <MagneticButton
-            onClick={() => navigate(mode === "signin" ? "/login" : "/register")}
-            className="w-full bg-gradient-to-r from-[#e63946] to-[#06d6a0] text-white shadow-[0_0_25px_rgba(230,57,70,0.25)] py-3"
-          >
-            {mode === "signin" ? "Sign In" : "Create Account"}
-          </MagneticButton>
-        </form>
-
-        <p className="text-center text-sm text-white/30 mt-6">
-          {mode === "signin" ? "Don't have an account?" : "Already have an account?"}{" "}
-          <button onClick={onSwitch} className="text-[#06d6a0] hover:underline">
-            {mode === "signin" ? "Sign Up" : "Sign In"}
-          </button>
-        </p>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-/* ─── Floating Label Input ─── */
-function FloatingInput({ label, type }: { label: string; type: string }) {
-  const [focused, setFocused] = useState(false);
-  const [hasValue, setHasValue] = useState(false);
-
-  return (
-    <div className="relative">
-      <input
-        type={type}
-        onFocus={() => setFocused(true)}
-        onBlur={(e) => {
-          setFocused(false);
-          setHasValue(e.target.value.length > 0);
-        }}
-        className="w-full px-4 pt-5 pb-2 rounded-xl border border-white/[0.1] bg-white/[0.03] text-white outline-none focus:border-[#e63946]/50 focus:ring-1 focus:ring-[#e63946]/30 transition-all peer"
-      />
-      <label
-        className={`absolute left-4 transition-all duration-200 pointer-events-none ${
-          focused || hasValue
-            ? "top-1.5 text-[10px] text-[#06d6a0]"
-            : "top-3.5 text-sm text-white/30"
-        }`}
-      >
-        {label}
-      </label>
     </div>
   );
 }
