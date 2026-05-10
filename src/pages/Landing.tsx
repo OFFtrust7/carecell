@@ -465,16 +465,6 @@ export default function LandingPage() {
         </footer>
       </div>
 
-      {/* ─── Auth Modal ─── */}
-      <AnimatePresence>
-        {showModal && (
-          <AuthModal
-            mode={modalMode}
-            onClose={() => setShowModal(false)}
-            onSwitch={() => setModalMode(modalMode === "signin" ? "signup" : "signin")}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }
