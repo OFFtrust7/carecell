@@ -72,10 +72,13 @@ export default function LandingPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const openModal = useCallback((mode: "signin" | "signup") => {
-    setModalMode(mode);
-    setShowModal(true);
-  }, []);
+  const navigate = useNavigate();
+  const openModal = useCallback(
+    (mode: "signin" | "signup") => {
+      navigate(mode === "signin" ? "/login" : "/register");
+    },
+    [navigate]
+  );
 
   return (
     <div ref={containerRef} className="min-h-screen bg-[#07070f] text-white overflow-x-hidden">
