@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Heart, Droplets, Users, ArrowRight, Shield, MapPin, Zap, Activity, X, Eye, EyeOff } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Heart, Droplets, Users, ArrowRight, Shield, MapPin, Zap, Activity } from "lucide-react";
 import Scene3D from "@/components/landing/Scene3D";
 import MagneticButton from "@/components/landing/MagneticButton";
 import carecellLogo from "@/assets/carecell-logo.png";
