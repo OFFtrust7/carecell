@@ -49,8 +49,6 @@ const modalSpring = {
 /* ─── Page ─── */
 export default function LandingPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [showModal, setShowModal] = useState(false);
-  const [modalMode, setModalMode] = useState<"signin" | "signup">("signin");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [is3DVisible, setIs3DVisible] = useState(true);
 
